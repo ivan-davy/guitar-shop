@@ -1,6 +1,12 @@
-export type User = {
+export type UserType = {
+  name: string;
   email: string;
-  avatarPath: string;
-  firstname: string;
-  lastname: string;
+  password: string;
+  adminRights: boolean;
+}
+
+export type SafeUserType = {
+  name: string;
+  email: string;
+  adminRights: string
 }

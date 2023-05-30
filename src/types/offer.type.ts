@@ -1,14 +1,39 @@
-import { Category } from './category.type.js';
-import { OfferType } from './offer-type.enum.js';
-import { User } from './user.type.js';
+import {ExtendedUserType, UserType} from './user.type.js';
+import {CoordinatesType} from './coordinates.type.js';
 
-export type Offer = {
+export type OfferType = {
   title: string;
   description: string;
-  postDate: Date;
-  image: string;
-  type: OfferType
+  postedDate: string;
+  city: string;
+  imagePreview: string;
+  images: string[];
+  premium: boolean;
+  favorite: boolean;
+  rating: number;
+  type: string;
+  rooms: number;
+  guests: number;
   price: number;
-  categories: Category[];
-  user: User;
+  features: string[];
+  coordinates: CoordinatesType;
+  user: UserType;
+}
+
+export type CreateOfferType = {
+  title: string;
+  description: string;
+  postedDate: string;
+  city: string;
+  imagePreview: string;
+  images: string[];
+  premium: boolean;
+  rating: number;
+  type: string;
+  rooms: number;
+  guests: number;
+  price: number;
+  features: string[];
+  coordinates: CoordinatesType;
+  user: ExtendedUserType;
 }
