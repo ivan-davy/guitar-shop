@@ -1,39 +1,24 @@
-import {ExtendedUserType, UserType} from './user.type.js';
-import {CoordinatesType} from './coordinates.type.js';
+import { UserType } from "./user.type";
 
 export type OfferType = {
-  title: string;
+  name: string;
   description: string;
   postedDate: string;
-  city: string;
-  imagePreview: string;
-  images: string[];
-  premium: boolean;
-  favorite: boolean;
-  rating: number;
+  image: string;
   type: string;
-  rooms: number;
-  guests: number;
+  vendorCode: string;
+  strings: number;
   price: number;
-  features: string[];
-  coordinates: CoordinatesType;
-  user: UserType;
 }
 
-export type CreateOfferType = {
-  title: string;
+export type ImportDataType = {
+  name: string;
   description: string;
   postedDate: string;
-  city: string;
-  imagePreview: string;
-  images: string[];
-  premium: boolean;
-  rating: number;
+  image: string;
   type: string;
-  rooms: number;
-  guests: number;
+  vendorCode: string;
+  strings: number;
   price: number;
-  features: string[];
-  coordinates: CoordinatesType;
-  user: ExtendedUserType;
+  user: UserType
 }

@@ -41,15 +41,12 @@
       "acoustic",
       "ukulele"
     ],
-    "rootUser": [
-      {
-        "name": "admin",
-        "email": "admin@mail.com",
-        "password": "password",
-        "adminRights": true,
-        "favorites": []
-      }
-    ]
+    "rootUser": {
+      "name": "admin",
+      "email": "admin@mail.com",
+      "password": "password",
+      "hasAdminRights": true
+    }
   }
 }
 

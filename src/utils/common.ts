@@ -1,4 +1,3 @@
-import {CreateOfferType} from '../types/offer.type.js';
 import crypto from 'crypto';
 import {plainToInstance} from 'class-transformer';
 import {ClassConstructor} from 'class-transformer/types/interfaces/class-constructor.type.js';
@@ -7,58 +6,39 @@ import {ValidationError} from 'class-validator';
 import {ValidationErrorField} from '../types/validation-error-field.type.js';
 import {ServiceError} from '../types/service-error.enum.js';
 import {UnknownObject} from '../types/unknown-object.type.js';
-import {DEFAULT_STATIC_IMAGES} from '../app/application.constant.js';
+import { DEFAULT_STATIC_IMAGES } from "../app/application.constant";
+import { MockRowObjectType } from "../types/mock-row-object.type";
 
-export const createOffer = (row: string): CreateOfferType => {
+export const createOffer = (row: string): MockRowObjectType  => {
   const items = row.replace('\n', '').split('\t');
   const [
-    title,
+    name,
     description,
     postedDate,
-    city,
-    coordinates,
-    imagePreview,
-    images,
-    premium,
-    rating,
+    image,
     type,
-    rooms,
-    guests,
+    vendorCode,
+    strings,
     price,
-    features,
-    name,
+    userName,
     email,
-    avatarPath,
     password,
-    status,
-    favorites
+    hasAdminRights
   ] = items;
+
   return {
-    title,
+    name,
     description,
-    postedDate: postedDate,
-    city,
-    coordinates: {
-      latitude: coordinates.split(';')[0],
-      longitude: coordinates.split(';')[1]
-    },
-    imagePreview,
-    images: images.split(','),
-    premium: premium === 'true',
-    rating: Number(rating),
+    postedDate,
+    image,
     type,
-    rooms: Number(rooms),
-    guests: Number(guests),
+    vendorCode,
+    strings: Number(strings),
     price: Number(price),
-    features: features.split(','),
-    user: {
-      name,
-      email,
-      avatarPath,
-      password,
-      status,
-      favorites: favorites.split(';')
-    },
+    userName,
+    email,
+    password,
+    hasAdminRights: (hasAdminRights === 'true')
   };
 };
 

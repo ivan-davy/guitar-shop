@@ -1,12 +1,12 @@
 import {MockDataType} from '../types/mock-data.type';
 import {getRandomInteger, getRandomItem} from '../utils/random.js';
-import {OfferGeneratorInterface} from '../types/offer-generator.interface';
+import {GeneratorInterface} from '../types/generator.interface';
 
 const PRICE_RANGE = [100, 1000000];
 const STRINGS_QUANTITIES = [4, 6, 7, 12]
 
 
-export default class OfferGenerator implements OfferGeneratorInterface {
+export default class OfferGenerator implements GeneratorInterface {
   constructor(private readonly mockData: MockDataType) {}
 
   public generate(): string {
@@ -18,7 +18,10 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const strings = getRandomItem(STRINGS_QUANTITIES);
     const vendorCode = getRandomItem(this.mockData.vendorCodes)
     const price = getRandomInteger(PRICE_RANGE[0], PRICE_RANGE[1]);
-    const user = this.mockData.rootUser;
+    const userName = this.mockData.rootUser.name;
+    const hasAdminRights = this.mockData.rootUser.hasAdminRights;
+    const email = this.mockData.rootUser.email;
+    const password = this.mockData.rootUser.password
 
     return [
       name,
@@ -29,7 +32,10 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       price,
       strings,
       vendorCode,
-      user
+      userName,
+      email,
+      password,
+      hasAdminRights
     ]
       .join('\t');
   }

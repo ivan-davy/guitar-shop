@@ -13,11 +13,8 @@ import UserResponse from './response/user.response.js';
 import {ConfigInterface} from '../../common/config/config.interface.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
-import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
-import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import LoggedUserResponse from './response/logged-user.response.js';
-import {JWT_ALGORITM} from './user.constant.js';
-import UploadUserAvatarResponse from './response/upload-user-avatar.response.js';
+import {JWT_ALGORITHM} from './user.constant.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -44,15 +41,6 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.login,
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
-    });
-    this.addRoute({
-      path: '/:userId/avatar',
-      method: HttpMethod.Post,
-      handler: this.uploadAvatar,
-      middlewares: [
-        new ValidateObjectIdMiddleware('userId'),
-        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
-      ]
     });
   }
 
@@ -95,7 +83,7 @@ export default class UserController extends Controller {
     }
 
     const token = await createJWT(
-      JWT_ALGORITM,
+      JWT_ALGORITHM,
       this.configService.get('JWT_SECRET'),
       { email: user.email, id: user.id}
     );
@@ -116,12 +104,5 @@ export default class UserController extends Controller {
     }
     const user = await this.userService.findByEmail(req.user.email);
     this.ok(res, fillDTO(LoggedUserResponse, user));
-  }
-
-
-  public async uploadAvatar(req: Request, res: Response) {
-    const uploadFile = { avatarPath: req.file?.filename };
-    await this.userService.updateById(req.params.userId, uploadFile);
-    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 }

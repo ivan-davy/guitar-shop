@@ -8,14 +8,8 @@ export default class UserResponse {
   public email!: string;
 
   @Expose()
-  public avatarPath!: string;
-
-  @Expose()
   public name!: string;
 
   @Expose()
-  public status!: string;
-
-  @Expose()
-  public favorites!: string;
+  public hasAdminRights!: string;
 }

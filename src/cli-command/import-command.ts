@@ -10,17 +10,15 @@ import UserService from '../modules/user/user.service.js';
 import OfferService from '../modules/offer/offer.service.js';
 import {OfferModel} from '../modules/offer/offer.entity.js';
 import {UserModel} from '../modules/user/user.entity.js';
-import {CreateOfferType} from '../types/offer.type.js';
 import {LoggerInterface} from '../common/logger/logger.interface.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
-import {CommentServiceInterface} from '../modules/comment/comment-service.interface';
+import { MockRowObjectType } from "../types/mock-row-object.type";
 
 const DEFAULT_DB_PORT = 27017;
 const DEFAULT_USER_PASSWORD = '123456';
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
-  private commentService!: CommentServiceInterface;
   private userService!: UserServiceInterface;
   private offerService!: OfferServiceInterface;
   private databaseService!: DatabaseInterface;
@@ -33,27 +31,34 @@ export default class ImportCommand implements CliCommandInterface {
 
     this.logger = new ConsoleLoggerService();
     this.userService = new UserService(this.logger, UserModel);
-    this.offerService = new OfferService(this.logger, OfferModel, this.userService, this.commentService);
+    this.offerService = new OfferService(this.logger, OfferModel);
     this.databaseService = new DatabaseService(this.logger);
   }
 
-  private async saveOffer(offer: CreateOfferType) {
-    const pwd = offer.user.password ? offer.user.password : DEFAULT_USER_PASSWORD;
-    const user = await this.userService.findOrCreate({
-      ...offer.user,
-      password: pwd
-    }, this.salt);
+  private async saveData(data: MockRowObjectType) {
+    await this.userService.findOrCreate({
+      name: data.userName,
+      email: data.email,
+      password: data.password ? data.password : DEFAULT_USER_PASSWORD,
+      hasAdminRights: data.hasAdminRights
+    }, this.salt)
 
     await this.offerService.create({
-      ...offer,
-      user: user.id,
-    });
+      name: data.name,
+      description: data.description,
+      postedDate: data.postedDate,
+      image: data.image,
+      type: data.type,
+      vendorCode: data.vendorCode,
+      strings: data.strings,
+      price: data.price,
+    })
   }
 
   private async onLine(line: string, resolve: () => void) {
     const offer = createOffer(line);
     console.log(offer);
-    await this.saveOffer(offer);
+    await this.saveData(offer);
     resolve();
   }
 

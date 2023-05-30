@@ -1,8 +1,7 @@
-import {IsEmail, IsEnum, IsOptional, IsString, MaxLength, MinLength} from 'class-validator';
-import {UserTypeEnum} from '../../../types/user-type.enum.js';
+import { IsBoolean, IsEmail, IsString, MaxLength, MinLength } from "class-validator";
 
 export default class CreateUserDto {
-  @IsEmail({}, {message: '$property is not valid.'})
+  @IsEmail({}, {message: '$property is not valid email address.'})
   public email!: string;
 
   @IsString({message: '$property must be a valid string'})
@@ -15,9 +14,6 @@ export default class CreateUserDto {
   @MaxLength(12, {message: '$property must be no longer than $constraint1 symbols'})
   public password!: string;
 
-  @IsEnum(UserTypeEnum, {message: '$property must be a value from UserTypeEnum'})
-  public status!: string;
-
-  @IsOptional()
-  public avatarPath?: string;
+  @IsBoolean({message: '$property must be a boolean'})
+  public hasAdminRights!: boolean;
 }

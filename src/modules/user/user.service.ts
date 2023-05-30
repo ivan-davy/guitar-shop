@@ -6,10 +6,6 @@ import {UserServiceInterface} from './user-service.interface.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {Component} from '../../types/component.types.js';
 import LoginUserDto from './dto/login-user.dto.js';
-import mongoose from 'mongoose';
-import {OfferEntity} from '../offer/offer.entity.js';
-import {DEFAULT_AVATAR_FILE_NAME} from './user.constant.js';
-import UpdateUserDto from './dto/update-user.dto.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -19,8 +15,7 @@ export default class UserService implements UserServiceInterface {
   ) {}
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
-    const avtPath = dto.avatarPath ? dto.avatarPath : DEFAULT_AVATAR_FILE_NAME;
-    const user = new UserEntity({...dto, favorites: [], avatarPath: avtPath});
+    const user = new UserEntity(dto);
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);
@@ -35,12 +30,6 @@ export default class UserService implements UserServiceInterface {
 
   public async findById(userId: string): Promise<DocumentType<UserEntity> | null> {
     return this.userModel.findOne({'_id': userId});
-  }
-
-  public async updateById(userId: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel
-      .findByIdAndUpdate(userId, dto, {new: true})
-      .exec();
   }
 
   public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
@@ -65,25 +54,5 @@ export default class UserService implements UserServiceInterface {
     }
 
     return null;
-  }
-
-  public async addToFavoritesById(userId: string, offerId: string): Promise<DocumentType<OfferEntity>[] | null> {
-    return this.userModel
-      .findOneAndUpdate(
-        { '_id': userId },
-        {
-          $addToSet: { 'favorites': new mongoose.Types.ObjectId(offerId) }
-        },
-        { new: true, upsert: true });
-  }
-
-  public async removeFromFavoritesById(userId: string, offerId: string): Promise<DocumentType<OfferEntity>[] | null> {
-    return this.userModel
-      .findOneAndUpdate(
-        { '_id': userId },
-        {
-          $pull: { 'favorites': new mongoose.Types.ObjectId(offerId) }
-        },
-        { new: true });
   }
 }
