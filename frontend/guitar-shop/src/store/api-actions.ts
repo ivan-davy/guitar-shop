@@ -1,147 +1,153 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {ActiveType, AppDispatch, HomeType, State, UserType} from '../types/state';
-import {AxiosInstance} from 'axios';
-import {ApiRoute, FormStatus, PageRoute, SIMILAR_SHOWN_QTY} from '../const';
-import {AuthDataType, MovieType, NewReviewType, ReviewType,} from '../types/types';
-import {redirectToRouteAction, setLoadingStatusAction} from './service/actions';
-import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
-import {dropToken, saveToken} from '../api/token';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
+import { redirectToRouteAction, setLoadingStatusAction } from './service/actions';
+import { Omit } from '@reduxjs/toolkit/dist/tsHelpers';
+import { dropToken, saveToken } from '../api/token';
 import React from 'react';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
+import { ProductType } from '../types/product.type';
+import { AppDispatchType, StateType } from '../types/states/state.type';
+import { ApiRouteEnum } from '../const/routes/api-route.enum';
+import { PageRouteEnum } from '../const/routes/page-route.enum';
+import { FormStatusEnum } from '../const/form-status.enum';
+import { ProductUpdateType } from '../types/product-update.type';
+import { UserType } from '../types/user.type';
+import { AuthDataType } from '../types/auth-data.type';
 
-type FetchHomeDataReturnType = Omit<HomeType, 'selectedGenre'>;
-export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, undefined, {
-  dispatch: AppDispatch;
-  state: State;
+type FetchProductsReturnType = ProductType[];
+export const fetchProductsAction = createAsyncThunk<FetchProductsReturnType, undefined, {
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
-  'products/apiGetData',
+  'products/api/get-all',
   async (_, {dispatch, extra: api}) => {
-    const homeData: FetchHomeDataReturnType = {
-      movies: [],
-      featuredMovie: null,
-    };
+    let products = [] as FetchProductsReturnType;
     try {
-      homeData.movies = (await api.get<MovieType[]>(ApiRoute.Movies)).data;
-      homeData.featuredMovie = (await api.get<MovieType>(ApiRoute.Featured)).data;
+      products = (await api.get<ProductType[]>(ApiRouteEnum.Products)).data;
     }
     catch (err) {
-      dispatch(redirectToRouteAction(PageRoute.NotFound));
-
+      dispatch(redirectToRouteAction(PageRouteEnum.NotFound));
       throw err;
     }
 
-    return homeData;
+    return products;
   },
 );
 
 
-type FetchActiveDataReturnType = ActiveType;
-export const fetchActiveDataAction = createAsyncThunk<FetchActiveDataReturnType, string, {
-  dispatch: AppDispatch;
-  state: State;
+type FetchActiveReturnType = ProductType;
+export const fetchActiveAction = createAsyncThunk<FetchActiveReturnType, string, {
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
-  'active/apiGetDataById',
-  async (movieId, {dispatch, extra: api}) => {
-    const activeData: FetchActiveDataReturnType = {
-      movie: null,
-      similarMovies: [],
-      reviews: [],
-    };
+  'products/api/get-by-id',
+  async (productId, {dispatch, extra: api}) => {
     try {
-      activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
-      activeData.similarMovies = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
-        .data.slice(0, SIMILAR_SHOWN_QTY);
-      activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-
-      return activeData;
+      return (await api.get<ProductType>(`${ApiRouteEnum.Products}/${productId}`)).data;
     } catch (err) {
       toast.error('Something went wrong...');
-      dispatch(redirectToRouteAction(PageRoute.NotFound));
-
+      dispatch(redirectToRouteAction(PageRouteEnum.NotFound));
       throw err;
     }
   }
 );
 
-type PostUserReviewReturnType = ReviewType[];
-export const postUserReviewAction = createAsyncThunk<PostUserReviewReturnType, {
-  userReview: NewReviewType;
+type PostProductReturnType = ProductType;
+export const postProductAction = createAsyncThunk<PostProductReturnType, {
+  product: ProductType;
   setFormSubmitStateCb: React.Dispatch<React.SetStateAction<number>>;
-  activeId: number;
   }, {
-  dispatch: AppDispatch;
-  state: State;
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
-  'user/apiPostNewReview',
+  'products/api/new',
   async (formData, {dispatch, extra: api}) => {
-    const activeId = formData.activeId;
     try {
-      const updatedReviews: ReviewType[] = (await api.post<PostUserReviewReturnType>(
-        `${ApiRoute.Reviews}/${activeId}`, formData.userReview)).data;
-      formData.setFormSubmitStateCb(FormStatus.Submitted);
-      dispatch(redirectToRouteAction(`/what-to-watch${PageRoute.Movie}/${activeId}`));
+      const newProduct = (await api.post<ProductType>(
+        `${ApiRouteEnum.Products}`, formData.product)).data;
+      formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
+      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${newProduct.id}`));
 
-      return updatedReviews;
+      return newProduct;
     } catch (err) {
       toast.error('Something went wrong...');
-      formData.setFormSubmitStateCb(FormStatus.Available);
+      formData.setFormSubmitStateCb(FormStatusEnum.Available);
 
       throw err;
     }
   }
 );
 
-type PostToggleMyListMovieActionReturnType = MovieType;
-export const postToggleMyListMovieAction = createAsyncThunk<PostToggleMyListMovieActionReturnType, {
-  movieId: number;
-  actionId: number;
+type UpdateProductReturnType = ProductUpdateType;
+export const updateProductAction = createAsyncThunk<UpdateProductReturnType, {
+  product: ProductUpdateType;
+  setFormSubmitStateCb: React.Dispatch<React.SetStateAction<number>>;
+  productId: string;
 }, {
-  dispatch: AppDispatch;
-  state: State;
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
-  'user/apiPostToggleMyListMovie',
-  async ({actionId, movieId}, {dispatch, extra: api}) => {
-    const updatedMovie: MovieType = (await api.post<PostToggleMyListMovieActionReturnType>(
-      `${ApiRoute.MyList}/${movieId}/${actionId}`)).data;
-    return updatedMovie;
+  'products/api/update-by-id',
+  async (formData, {dispatch, extra: api}) => {
+    const productId = formData.productId;
+    try {
+      const updatedProduct = (await api.patch<ProductType>(
+        `${ApiRouteEnum.Products}/${productId}`, formData.product)).data;
+      formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
+      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${updatedProduct.id}`));
+
+      return updatedProduct;
+    } catch (err) {
+      toast.error('Something went wrong...');
+      formData.setFormSubmitStateCb(FormStatusEnum.Available);
+
+      throw err;
+    }
   }
 );
 
-
-type FetchMyListMoviesReturnType = MovieType[];
-export const fetchMyListMoviesAction = createAsyncThunk<FetchMyListMoviesReturnType, undefined, {
-  dispatch: AppDispatch;
-  state: State;
+export const deleteProductAction = createAsyncThunk<void, {
+  productId: string;
+}, {
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
-  'user/apiGetMyList',
-  async (_, {dispatch, extra: api}) =>
-    (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data);
-
+  'products/api/delete-by-id',
+  async (formData, {dispatch, extra: api}) => {
+    const productId = formData.productId;
+    try {
+      (await api.delete<ProductType>(
+        `${ApiRouteEnum.Products}/${productId}`)).data;
+      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}`));
+    } catch (err) {
+      toast.error('Something went wrong...');
+      throw err;
+    }
+  }
+);
 
 type CheckAuthReturnType = UserType;
 export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, {
-  dispatch: AppDispatch;
-  state: State;
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
-  'user/apiCheckUserAuth',
+  'user/api/check-auth',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(setLoadingStatusAction(true));
-    const userData = (await api.get<Omit<CheckAuthReturnType, 'myList'>>(ApiRoute.Login)).data;
-    const myListMovies = (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data;
+    const userData = (await api.get<UserType>(ApiRouteEnum.SignIn)).data;
 
     const completeUserData: CheckAuthReturnType = {
       id: userData.id,
       name: userData.name,
-      avatarUrl: userData.avatarUrl,
       email: userData.email,
+      hasAdminRights: userData.hasAdminRights,
       token: userData.token,
-      myList: myListMovies,
     };
     saveToken(completeUserData.token as string);
 
@@ -152,21 +158,20 @@ export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, 
 
 type LoginReturnType = UserType;
 export const loginAction = createAsyncThunk<LoginReturnType, AuthDataType, {
-  dispatch: AppDispatch;
-  state: State;
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
   'user/apiLogin',
-  async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<Omit<LoginReturnType, 'myList'>>(ApiRoute.Login, {email, password});
+  async ({email, password}, {dispatch, extra: api}) => {
+    const {data} = await api.post<UserType>(ApiRouteEnum.SignIn, {email, password});
 
     const userData: LoginReturnType = {
       id: data.id,
       name: data.name,
-      avatarUrl: data.avatarUrl,
       email: data.email,
+      hasAdminRights: data.hasAdminRights,
       token: data.token,
-      myList: [],
     };
 
     saveToken(userData.token as string);
@@ -174,16 +179,14 @@ export const loginAction = createAsyncThunk<LoginReturnType, AuthDataType, {
   },
 );
 
-
 export const logoutAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
+  dispatch: AppDispatchType;
+  state: StateType;
   extra: AxiosInstance;
 }>(
   'user/apiLogout',
   async (_arg, {dispatch, extra: api}) => {
-    await api.delete(ApiRoute.Logout);
-
+    //await api.delete(ApiRouteEnum.SignOut);
     dropToken();
   },
 );

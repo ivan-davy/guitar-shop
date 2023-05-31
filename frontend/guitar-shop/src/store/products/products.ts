@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { ProductsStateType } from "../../types/states/products-state.type";
-import { NamespaceEnum } from "../../const/namespace.enum";
-import { changeFiltersAction, changeSortingAction } from "./actions";
+import { ProductsStateType } from '../../types/states/products-state.type';
+import { NamespaceEnum } from '../../const/namespace.enum';
+import { changeFiltersAction, changeSortingAction } from './actions';
+import { fetchProductsAction } from '../api-actions';
 
 export const initialState: ProductsStateType = {
   products: [],

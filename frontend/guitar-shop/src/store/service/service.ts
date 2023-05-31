@@ -1,13 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ServiceStateType } from "../../types/states/service-state.type";
-import { setLoadingStatusAction } from "./actions";
+import { createSlice } from '@reduxjs/toolkit';
+import { ServiceStateType } from '../../types/states/service-state.type';
+import { setLoadingStatusAction } from './actions';
 import {
-  checkAuthAction,
-  loginAction,
-  logoutAction
-} from "../api-actions";
-import { AuthorizationStatusEnum } from "../../const/authorization-status.enum";
-import { NamespaceEnum } from "../../const/namespace.enum";
+  checkAuthAction, deleteProductAction, fetchActiveAction, fetchProductsAction, loginAction,
+  logoutAction, updateProductAction
+} from '../api-actions';
+import { AuthorizationStatusEnum } from '../../const/authorization-status.enum';
+import { NamespaceEnum } from '../../const/namespace.enum';
 
 export const initialState: ServiceStateType = {
   authData: {
@@ -27,25 +26,47 @@ export const service = createSlice({
       });
 
     builder
-      .addCase(fetchProducts.pending, (state) => {
+      .addCase(fetchProductsAction.pending, (state) => {
         state.isDataLoading = true;
       })
-      .addCase(fetchProducts.fulfilled, (state) => {
+      .addCase(fetchProductsAction.fulfilled, (state) => {
         state.isDataLoading = false;
       })
-      .addCase(fetchProducts.rejected, (state) => {
+      .addCase(fetchProductsAction.rejected, (state) => {
         state.isDataLoading = false;
       });
 
 
     builder
-      .addCase(fetchActiveProduct.pending, (state) => {
+      .addCase(fetchActiveAction.pending, (state) => {
         state.isDataLoading = true;
       })
-      .addCase(fetchActiveProduct.fulfilled, (state) => {
+      .addCase(fetchActiveAction.fulfilled, (state) => {
         state.isDataLoading = false;
       })
-      .addCase(fetchActiveProduct.rejected, (state) => {
+      .addCase(fetchActiveAction.rejected, (state) => {
+        state.isDataLoading = false;
+      });
+
+    builder
+      .addCase(updateProductAction.pending, (state) => {
+        state.isDataLoading = true;
+      })
+      .addCase(updateProductAction.fulfilled, (state) => {
+        state.isDataLoading = false;
+      })
+      .addCase(updateProductAction.rejected, (state) => {
+        state.isDataLoading = false;
+      });
+
+    builder
+      .addCase(deleteProductAction.pending, (state) => {
+        state.isDataLoading = true;
+      })
+      .addCase(deleteProductAction.fulfilled, (state) => {
+        state.isDataLoading = false;
+      })
+      .addCase(deleteProductAction.rejected, (state) => {
         state.isDataLoading = false;
       });
 

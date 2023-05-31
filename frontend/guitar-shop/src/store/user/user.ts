@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {checkAuthAction, fetchMyListMoviesAction, loginAction, postToggleMyListMovieAction} from '../api-actions';
-import { UserType } from "../../types/user.type";
-import { NamespaceEnum } from "../../const/namespace.enum";
+import {checkAuthAction, loginAction} from '../api-actions';
+import { UserType } from '../../types/user.type';
+import { NamespaceEnum } from '../../const/namespace.enum';
 
 export const initialState: UserType = {
   id: null,

@@ -3,17 +3,17 @@ import {AuthorizationStatusEnum} from '../../const/authorization-status.enum';
 import {useAppSelector} from '../../hooks/store-hooks';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import {getAuthData} from '../../store/service/selectors';
-import { PageRouteEnum } from "../../const/routes/page-route.enum";
-import AdminRoute from "../admin-route/admin-route";
-import { getAdminRightsValue } from "../../store/user/selectors";
+import { PageRouteEnum } from '../../const/routes/page-route.enum';
+import AdminRoute from '../admin-route/admin-route';
+import { getAdminRightsValue } from '../../store/user/selectors';
 
 
 function App(): JSX.Element {
   const authStatus = useAppSelector(getAuthData);
   const adminRights = useAppSelector(getAdminRightsValue);
-  const authData = {authStatus, adminRights}
+  const authData = {authStatus, adminRights};
 
-  if (authData.status === AuthorizationStatusEnum.Unknown) {
+  if (authData.authStatus === AuthorizationStatusEnum.Unknown) {
     return (
       <LoadingSpinner/>
     );

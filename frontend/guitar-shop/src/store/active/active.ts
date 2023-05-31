@@ -1,7 +1,7 @@
 import {ActiveStateType} from '../../types/states/active-state.type';
 import {createSlice} from '@reduxjs/toolkit';
 import {NamespaceEnum} from '../../const/namespace.enum';
-import {fetchActiveDataAction, postToggleMyListMovieAction, postUserReviewAction} from '../api-actions';
+import {fetchActiveAction} from '../api-actions';
 
 export const initialState: ActiveStateType = {
   product: null,
@@ -13,7 +13,7 @@ export const active = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchActiveDataAction.fulfilled, (state, action) => {
+      .addCase(fetchActiveAction.fulfilled, (state, action) => {
         state.product = action.payload;
       });
   }
