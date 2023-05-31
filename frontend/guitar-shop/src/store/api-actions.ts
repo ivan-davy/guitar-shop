@@ -3,7 +3,7 @@ import {ActiveType, AppDispatch, HomeType, State, UserType} from '../types/state
 import {AxiosInstance} from 'axios';
 import {ApiRoute, FormStatus, PageRoute, SIMILAR_SHOWN_QTY} from '../const';
 import {AuthDataType, MovieType, NewReviewType, ReviewType,} from '../types/types';
-import {redirectToRouteAction, setLoadingStatusAction} from './actions';
+import {redirectToRouteAction, setLoadingStatusAction} from './service/actions';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {dropToken, saveToken} from '../api/token';
 import React from 'react';
@@ -15,7 +15,7 @@ export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, und
   state: State;
   extra: AxiosInstance;
 }>(
-  'home/apiGetData',
+  'products/apiGetData',
   async (_, {dispatch, extra: api}) => {
     const homeData: FetchHomeDataReturnType = {
       movies: [],

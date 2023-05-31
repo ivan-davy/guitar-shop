@@ -1,10 +1,9 @@
-import {UserType, State} from '../../types/state';
-import {Namespace} from '../../const';
-import {MovieType} from '../../types/types';
+import { NamespaceEnum } from "../../const/namespace.enum";
+import { StateType } from "../../types/states/state.type";
+import { UserType } from "../../types/user.type";
 
-export const getUserData = (state: State): UserType => state[Namespace.User];
-
-export const getId = (state: State): number | null => state[Namespace.User].id;
-export const getMyList = (state: State): MovieType[] => state[Namespace.User].myList;
+export const getUserData = (state: StateType): UserType => state[NamespaceEnum.User];
+export const getAdminRightsValue = (state: StateType): boolean => state[NamespaceEnum.User].hasAdminRights
+export const getUserId = (state: StateType): number | null => state[NamespaceEnum.User].id;
 
 

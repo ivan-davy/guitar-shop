@@ -1,22 +1,23 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {AuthorizationStatus, Namespace} from '../../const';
-import {ServiceType} from '../../types/state';
-import {setLoadingStatusAction} from '../actions';
+import { createSlice } from "@reduxjs/toolkit";
+import { ServiceStateType } from "../../types/states/service-state.type";
+import { setLoadingStatusAction } from "./actions";
 import {
   checkAuthAction,
-  fetchActiveDataAction,
-  fetchHomeDataAction, fetchMyListMoviesAction,
   loginAction,
   logoutAction
-} from '../api-actions';
+} from "../api-actions";
+import { AuthorizationStatusEnum } from "../../const/authorization-status.enum";
+import { NamespaceEnum } from "../../const/namespace.enum";
 
-export const initialState: ServiceType = {
-  authStatus: AuthorizationStatus.Unknown,
+export const initialState: ServiceStateType = {
+  authData: {
+    status: AuthorizationStatusEnum.Unknown,
+  },
   isDataLoading: false,
 };
 
 export const service = createSlice({
-  name: Namespace.Service,
+  name: NamespaceEnum.Service,
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -26,32 +27,25 @@ export const service = createSlice({
       });
 
     builder
-      .addCase(fetchHomeDataAction.pending, (state) => {
+      .addCase(fetchProducts.pending, (state) => {
         state.isDataLoading = true;
       })
-      .addCase(fetchHomeDataAction.fulfilled, (state) => {
+      .addCase(fetchProducts.fulfilled, (state) => {
+        state.isDataLoading = false;
+      })
+      .addCase(fetchProducts.rejected, (state) => {
         state.isDataLoading = false;
       });
 
-    builder
-      .addCase(fetchActiveDataAction.pending, (state) => {
-        state.isDataLoading = true;
-      })
-      .addCase(fetchActiveDataAction.fulfilled, (state) => {
-        state.isDataLoading = false;
-      })
-      .addCase(fetchActiveDataAction.rejected, (state) => {
-        state.isDataLoading = false;
-      });
 
     builder
-      .addCase(fetchMyListMoviesAction.pending, (state) => {
+      .addCase(fetchActiveProduct.pending, (state) => {
         state.isDataLoading = true;
       })
-      .addCase(fetchMyListMoviesAction.fulfilled, (state) => {
+      .addCase(fetchActiveProduct.fulfilled, (state) => {
         state.isDataLoading = false;
       })
-      .addCase(fetchMyListMoviesAction.rejected, (state) => {
+      .addCase(fetchActiveProduct.rejected, (state) => {
         state.isDataLoading = false;
       });
 
@@ -60,11 +54,11 @@ export const service = createSlice({
         state.isDataLoading = true;
       })
       .addCase(checkAuthAction.fulfilled, (state) => {
-        state.authStatus = AuthorizationStatus.Auth;
+        state.authData.status = AuthorizationStatusEnum.Auth;
         state.isDataLoading = false;
       })
       .addCase(checkAuthAction.rejected, (state) => {
-        state.authStatus = AuthorizationStatus.NoAuth;
+        state.authData.status = AuthorizationStatusEnum.NoAuth;
         state.isDataLoading = false;
       });
 
@@ -73,17 +67,17 @@ export const service = createSlice({
         state.isDataLoading = true;
       })
       .addCase(loginAction.fulfilled, (state) => {
-        state.authStatus = AuthorizationStatus.Auth;
+        state.authData.status = AuthorizationStatusEnum.Auth;
         state.isDataLoading = false;
       })
       .addCase(loginAction.rejected, (state) => {
-        state.authStatus = AuthorizationStatus.NoAuth;
+        state.authData.status = AuthorizationStatusEnum.NoAuth;
         state.isDataLoading = false;
       });
 
     builder
       .addCase(logoutAction.fulfilled, (state) => {
-        state.authStatus = AuthorizationStatus.NoAuth;
+        state.authData.status = AuthorizationStatusEnum.NoAuth;
       });
   }
 });

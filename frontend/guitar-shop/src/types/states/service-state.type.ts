@@ -4,7 +4,6 @@ export type ServiceStateType = {
   isDataLoading: boolean;
   authData: {
     status: AuthorizationStatusEnum;
-    adminRights: boolean;
   };
 
 }

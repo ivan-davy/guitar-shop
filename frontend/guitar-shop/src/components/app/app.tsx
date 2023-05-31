@@ -5,12 +5,15 @@ import LoadingSpinner from '../loading-spinner/loading-spinner';
 import {getAuthData} from '../../store/service/selectors';
 import { PageRouteEnum } from "../../const/routes/page-route.enum";
 import AdminRoute from "../admin-route/admin-route";
+import { getAdminRightsValue } from "../../store/user/selectors";
 
 
 function App(): JSX.Element {
-  const authData.authorizationStatus = useAppSelector(getAuthData);
+  const authStatus = useAppSelector(getAuthData);
+  const adminRights = useAppSelector(getAdminRightsValue);
+  const authData = {authStatus, adminRights}
 
-  if (authData === AuthorizationStatusEnum.Unknown) {
+  if (authData.status === AuthorizationStatusEnum.Unknown) {
     return (
       <LoadingSpinner/>
     );

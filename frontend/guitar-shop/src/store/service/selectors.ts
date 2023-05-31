@@ -1,6 +1,7 @@
-import {State} from '../../types/state';
-import {AuthorizationStatus, Namespace} from '../../const';
+import { StateType } from "../../types/states/state.type";
+import { NamespaceEnum } from "../../const/namespace.enum";
+import { AuthorizationStatusEnum } from "../../const/authorization-status.enum";
 
-export const getLoadingStatus = (state: State): boolean => state[Namespace.Service].isDataLoading;
-export const getAuthStatus = (state: State): AuthorizationStatus => state[Namespace.Service].authStatus;
+export const getLoadingStatus = (state: StateType): boolean => state[NamespaceEnum.Service].isDataLoading;
+export const getAuthData = (state: StateType): AuthorizationStatusEnum => state[NamespaceEnum.Service].authData.status;
 

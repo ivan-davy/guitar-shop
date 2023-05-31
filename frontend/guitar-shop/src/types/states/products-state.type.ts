@@ -6,6 +6,8 @@ export type ProductsStateType = {
     type: string[];
     strings: number[];
   }
-  sorting: string;
-  sortingDirection: string;
+  sorting: {
+    by: string | null;
+    direction: string | null;
+  };
 }
