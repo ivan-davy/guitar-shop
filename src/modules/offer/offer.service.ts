@@ -8,6 +8,7 @@ import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import mongoose from 'mongoose';
 import { GetOffersQuery } from "./query/get-offers.query.js";
+import { DEFAULT_OFFERS_PER_PAGE } from "./offer.const.js";
 
 
 @injectable()
@@ -34,10 +35,22 @@ export default class OfferService implements OfferServiceInterface {
   }
 
 public async find(query: GetOffersQuery): Promise<DocumentType<OfferEntity>[]> {
+    const findObj = {
+      type: query.type,
+      strings: query.strings
+    };
+    if (!findObj.type) {
+      delete findObj.type;
+    }
+    if (!findObj.strings) {
+      delete findObj.strings;
+    }
+
     return await this.offerModel
-      .find({type: query.type, strings: query.strings})
+      .find(findObj)
       .sort({[query.sortBy as string]: query.sortDirection})
-      .limit(query.limit)
+      .skip(DEFAULT_OFFERS_PER_PAGE * (query.page ?? 1))
+      .limit(DEFAULT_OFFERS_PER_PAGE)
       .exec()
   }
 
