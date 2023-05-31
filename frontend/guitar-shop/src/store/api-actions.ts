@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { redirectToRouteAction, setLoadingStatusAction } from './service/actions';
-import { Omit } from '@reduxjs/toolkit/dist/tsHelpers';
 import { dropToken, saveToken } from '../api/token';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -69,7 +68,7 @@ export const postProductAction = createAsyncThunk<PostProductReturnType, {
       const newProduct = (await api.post<ProductType>(
         `${ApiRouteEnum.Products}`, formData.product)).data;
       formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
-      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${newProduct.id}`));
+      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${newProduct.id as string}`));
 
       return newProduct;
     } catch (err) {
@@ -98,7 +97,7 @@ export const updateProductAction = createAsyncThunk<UpdateProductReturnType, {
       const updatedProduct = (await api.patch<ProductType>(
         `${ApiRouteEnum.Products}/${productId}`, formData.product)).data;
       formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
-      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${updatedProduct.id}`));
+      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${updatedProduct.id as string}`));
 
       return updatedProduct;
     } catch (err) {
@@ -121,8 +120,8 @@ export const deleteProductAction = createAsyncThunk<void, {
   async (formData, {dispatch, extra: api}) => {
     const productId = formData.productId;
     try {
-      (await api.delete<ProductType>(
-        `${ApiRouteEnum.Products}/${productId}`)).data;
+      await api.delete<ProductType>(
+        `${ApiRouteEnum.Products}/${productId}`);
       dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}`));
     } catch (err) {
       toast.error('Something went wrong...');
@@ -185,7 +184,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'user/apiLogout',
-  async (_arg, {dispatch, extra: api}) => {
+  (_arg, {dispatch, extra: api}) => {
     //await api.delete(ApiRouteEnum.SignOut);
     dropToken();
   },

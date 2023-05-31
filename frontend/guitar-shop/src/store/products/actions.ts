@@ -1,9 +1,19 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction } from '@reduxjs/toolkit';
 
-export const changeFiltersAction = createAction('products/filters/change', (filters) => ({
-  payload: filters,
-}));
+type FiltersType = {
+  type: string[];
+  strings: number[];
+}
 
-export const changeSortingAction = createAction('products/sorting/change', (sorting) => ({
-  payload: sorting,
-}));
+type SortingType = {
+  by: string | null;
+  direction: string | null;
+}
+
+export const changeFiltersAction = createAction('products/filters/change',
+  (filters: FiltersType): { payload: FiltersType } => ({
+    payload: filters,
+  }));
+
+export const changeSortingAction = createAction('products/sorting/change',
+  (sorting: SortingType) => ({ payload: sorting, }));

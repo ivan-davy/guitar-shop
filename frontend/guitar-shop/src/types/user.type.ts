@@ -1,5 +1,5 @@
 export type UserType = {
-  id: string | null;
+  id?: string | null;
   name: string | null;
   email: string | null;
   hasAdminRights: boolean;

@@ -2,15 +2,17 @@ import {Route, Routes} from 'react-router-dom';
 import {AuthorizationStatusEnum} from '../../const/authorization-status.enum';
 import {useAppSelector} from '../../hooks/store-hooks';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import {getAuthData} from '../../store/service/selectors';
+import {getAuthStatus} from '../../store/service/selectors';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
-import AdminRoute from '../admin-route/admin-route';
+//import AdminRoute from '../admin-route/admin-route';
 import { getAdminRightsValue } from '../../store/user/selectors';
+import SignInScreen from '../../pages/sign-in/sign-in.screen';
+import CommonLayout from '../../pages/common-layout/common-layout';
 
 
 function App(): JSX.Element {
   const authData = {
-    authStatus: useAppSelector(getAuthData),
+    authStatus: useAppSelector(getAuthStatus),
     adminRights: useAppSelector(getAdminRightsValue),
   };
 
@@ -23,9 +25,18 @@ function App(): JSX.Element {
     <Routes>
       <Route
         path={PageRouteEnum.SignIn}
-        element={<SignInScreen/>}
-      />
-      <Route
+        element={<CommonLayout/>}
+      >
+        <Route path={''} element={<SignInScreen/>} />
+      </Route>
+    </Routes>
+  );
+}
+
+export default App;
+
+/*
+<Route
         path={PageRouteEnum.Register}
         element={<RegisterScreen/>}
       />
@@ -57,8 +68,4 @@ function App(): JSX.Element {
         path='*'
         element={<NotFoundScreen/>}
       />
-    </Routes>
-  );
-}
-
-export default App;
+ */

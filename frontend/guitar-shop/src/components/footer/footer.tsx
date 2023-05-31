@@ -5,7 +5,7 @@ export default function Footer(): JSX.Element {
         <div className="footer__container">
           <div className="footer__logo-wrapper">
             <a className="footer__logo logo" href="main.html">
-              <img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип"/>
+              <img className="logo__img" width="70" height="70" src="./guitar-shop/img/svg/logo.svg" alt="Логотип"/>
             </a>
             <div className="socials footer__socials">
               <ul className="socials__list">
