@@ -9,9 +9,10 @@ import { getAdminRightsValue } from '../../store/user/selectors';
 
 
 function App(): JSX.Element {
-  const authStatus = useAppSelector(getAuthData);
-  const adminRights = useAppSelector(getAdminRightsValue);
-  const authData = {authStatus, adminRights};
+  const authData = {
+    authStatus: useAppSelector(getAuthData),
+    adminRights: useAppSelector(getAdminRightsValue),
+  };
 
   if (authData.authStatus === AuthorizationStatusEnum.Unknown) {
     return (

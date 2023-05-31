@@ -7,7 +7,7 @@ export const initialState: UserType = {
   id: null,
   name: null,
   email: null,
-  hasAdminRights: null,
+  hasAdminRights: false,
   token: null
 };
 

@@ -4,7 +4,7 @@ import { AuthorizationStatusEnum } from '../../const/authorization-status.enum';
 
 type AdminRoutePropsType = {
   authorizationData: {
-    authStatus: string;
+    authStatus: AuthorizationStatusEnum;
     adminRights: boolean;
   };
   children: JSX.Element;
