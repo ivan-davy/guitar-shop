@@ -6,6 +6,7 @@
 /docs/
 .idea/*
 markup
+uploads
 
 .DS_Store
 coverage

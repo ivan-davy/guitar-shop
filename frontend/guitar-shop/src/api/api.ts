@@ -6,13 +6,13 @@ import { StatusCodes } from "http-status-codes";
 const BASE_URL = 'https://11.react.pages.academy/wtw';
 const REQUEST_TIMEOUT = 5000;
 
-const StatusCodeMapping: Record<number, boolean> = {
+const ErrorDisplayMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.UNAUTHORIZED]: false,
   [StatusCodes.NOT_FOUND]: true
 };
 
-const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) => ErrorDisplayMapping[response.status];
 
 export const createApi = (): AxiosInstance => {
   const api = axios.create({
