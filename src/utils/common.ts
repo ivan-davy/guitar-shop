@@ -6,8 +6,8 @@ import {ValidationError} from 'class-validator';
 import {ValidationErrorField} from '../types/validation-error-field.type.js';
 import {ServiceError} from '../types/service-error.enum.js';
 import {UnknownObject} from '../types/unknown-object.type.js';
-import { DEFAULT_STATIC_IMAGES } from "../app/application.constant";
-import { MockRowObjectType } from "../types/mock-row-object.type";
+import { DEFAULT_STATIC_IMAGES } from "../app/application.const.js";
+import { MockRowObjectType } from "../types/mock-row-object.type.js";
 
 export const createOffer = (row: string): MockRowObjectType  => {
   const items = row.replace('\n', '').split('\t');
@@ -17,9 +17,9 @@ export const createOffer = (row: string): MockRowObjectType  => {
     postedDate,
     image,
     type,
-    vendorCode,
-    strings,
     price,
+    strings,
+    vendorCode,
     userName,
     email,
     password,
@@ -82,6 +82,7 @@ export const transformProperty = (
   someObject: UnknownObject,
   transformFn: (object: UnknownObject) => void
 ) => {
+  console.log(someObject);
   Object.keys(someObject)
     .forEach((key) => {
       if (key === property) {

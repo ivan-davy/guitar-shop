@@ -2,9 +2,9 @@ import {
   IsDateString, IsEnum, IsIn, IsInt, IsOptional, IsString, Max,
   MaxLength, Min, MinLength, Validate
 } from "class-validator";
-import {GuitarTypeEnum} from '../../../types/guitar-type.enum';
+import {GuitarTypeEnum} from '../../../types/guitar-type.enum.js';
 import {ValidImageFormat} from '../../../common/middlewares/validators/valid-image-format.validator.js';
-import { GUITAR_ALLOWED_STRINGS_QUANTITIES } from "../query/get-offers.query";
+import { GUITAR_ALLOWED_STRINGS_QUANTITIES } from "../query/get-offers.query.js";
 
 export default class CreateOfferDto {
   @IsOptional()

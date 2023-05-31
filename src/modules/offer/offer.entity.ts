@@ -1,6 +1,6 @@
 import typegoose, {defaultClasses, getModelForClass} from '@typegoose/typegoose';
 import {OfferType} from '../../types/offer.type.js';
-import {GuitarTypeEnum} from '../../types/guitar-type.enum';
+import {GuitarTypeEnum} from '../../types/guitar-type.enum.js';
 import dayjs from "dayjs";
 
 const {prop, modelOptions} = typegoose;

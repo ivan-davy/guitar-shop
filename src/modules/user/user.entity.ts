@@ -25,7 +25,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements SafeUserTyp
   @prop({required: true, default: ''})
   public name!: string;
 
-  @prop({required: true, default: 'Standard'})
+  @prop({default: false})
   public hasAdminRights!: boolean;
 
   @prop({required: true})

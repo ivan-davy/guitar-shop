@@ -18,9 +18,6 @@ export default class OfferRdo {
   public image!: string[];
 
   @Expose()
-  public premium!: boolean;
-
-  @Expose()
   public type!: string;
 
   @Expose()

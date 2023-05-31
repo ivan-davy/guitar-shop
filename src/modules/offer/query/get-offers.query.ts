@@ -1,7 +1,7 @@
-import { SortType } from "../../../types/sort-type.enum";
+import { SortType } from "../../../types/sort-type.enum.js";
 import { Transform } from "class-transformer";
 import { IsEnum, IsIn, IsNumber, IsOptional } from "class-validator";
-import { GuitarTypeEnum } from "../../../types/guitar-type.enum";
+import { GuitarTypeEnum } from "../../../types/guitar-type.enum.js";
 
 export const DEFAULT_SORT_DIRECTION = SortType.Down;
 export const DEFAULT_OFFER_QTY = 7;

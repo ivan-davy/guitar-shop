@@ -7,7 +7,7 @@ import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import mongoose from 'mongoose';
-import { GetOffersQuery } from "./query/get-offers.query";
+import { GetOffersQuery } from "./query/get-offers.query.js";
 
 
 @injectable()

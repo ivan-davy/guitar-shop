@@ -37,9 +37,9 @@
       "55YTDFJOGHDOSC"
     ],
     "types": [
-      "electric",
-      "acoustic",
-      "ukulele"
+      "Electric",
+      "Acoustic",
+      "Ukulele"
     ],
     "rootUser": {
       "name": "admin",

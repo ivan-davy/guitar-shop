@@ -15,5 +15,5 @@ export default class CreateUserDto {
   public password!: string;
 
   @IsBoolean({message: '$property must be a boolean'})
-  public hasAdminRights!: boolean;
+  public hasAdminRights: boolean = false;
 }

@@ -7,7 +7,7 @@ import {Request, Response} from 'express';
 import {OfferServiceInterface} from './offer-service.interface.js';
 import {StatusCodes} from 'http-status-codes';
 import {fillDTO} from '../../utils/common.js';
-import OfferRdo from './rdo/offer.rdo';
+import OfferRdo from './rdo/offer.rdo.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import HttpError from '../../common/errors/http-error.js';
@@ -17,8 +17,8 @@ import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import {ConfigInterface} from '../../common/config/config.interface.js';
 import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
-import UploadImagePreviewResponse from './rdo/upload-image.rdo';
-import { GetOffersQuery } from "./query/get-offers.query";
+import UploadImagePreviewResponse from './rdo/upload-image.rdo.js';
+import { GetOffersQuery } from "./query/get-offers.query.js";
 
 @injectable()
 export default class OfferController extends Controller {
@@ -144,7 +144,7 @@ export default class OfferController extends Controller {
         'OfferController'
       );
     }
-    this.send(res, StatusCodes.OK);
+    this.ok(res, {});
   }
 
   public async uploadImage(req: Request, res: Response) {

@@ -44,8 +44,8 @@ export default class Application {
   }
 
   public initRoutes() {
-    this.expressApp.use('/offer', this.offerController.router);
-    this.expressApp.use('/user', this.userController.router);
+    this.expressApp.use('/offers', this.offerController.router);
+    this.expressApp.use('/users', this.userController.router);
   }
 
   public initExceptionFilters() {

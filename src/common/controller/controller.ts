@@ -8,7 +8,7 @@ import asyncHandler from 'express-async-handler';
 import {ConfigInterface} from '../config/config.interface.js';
 import {UnknownObject} from '../../types/unknown-object.type.js';
 import {getFullServerPath, transformObject} from '../../utils/common.js';
-import {STATIC_RESOURCE_FIELDS} from '../../app/application.constant.js';
+import {STATIC_RESOURCE_FIELDS} from '../../app/application.const.js';
 
 @injectable()
 export abstract class Controller implements ControllerInterface {

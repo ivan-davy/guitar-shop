@@ -1,0 +1,101 @@
+### mocks
+# Тестовые данные
+GET http://localhost:3123/api HTTP/1.1
+
+### getOffers
+# Получить список предложений
+
+GET http://localhost:4000/offers?limit=20 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+
+### createOffer
+# Создать предложение
+
+POST http://localhost:4000/offers HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "name": "GUITAR GUITAR GUITAR GUITAR GUITAR",
+  "description": "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST",
+  "postedDate": "2030-04-06T08:45:40.283Z",
+  "image": "https://www.google.com/file/35.jpg",
+  "type": "Acoustic",
+  "vendorCode": "VENDORCODE111",
+  "strings": 6,
+  "price": 100000
+}
+
+### updateOffer
+# Редактировать предложение
+
+PATCH http://localhost:4000/offers/64768d7c53f8210d34a4f133 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "name": "GUITARRR GUITARRR GUITARRR GUITARRR GUITARRR",
+  "price": 200000
+}
+
+### getOfferById
+# Получить конкретное предложение по offerId
+
+GET http://localhost:4000/offers/64768d7c53f8210d34a4f133 HTTP/1.1
+
+### deleteOffer
+## Удалить предложение по offerId
+
+DELETE http://localhost:4000/offers/647690c8c88888dec2bba249 HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+
+### register
+## Регистрация пользователя
+
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "bigman@overlook.net",
+  "name": "Joshuaaa",
+  "password": "testtest"
+}
+
+### login
+## Аунтефикация пользователя
+
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "admin@mail.com",
+  "password": "password"
+}
+
+> {%
+  client.global.set("jwt_token", response.body.token);
+%}
+
+### check
+## Проверка токена пользователя
+
+GET http://localhost:4000/users/login HTTP/1.1
+Authorization: Bearer {{jwt_token}}
+
+### uploadImage
+## Загрузка изображения для объявления
+
+POST http://localhost:4000/offers/64769162c88888dec2bba251/image HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{jwt_token}}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="add-item-1.png"
+Content-Type: image/png
+
+< ./markup/img/content/add-item-1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###

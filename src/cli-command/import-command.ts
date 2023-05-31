@@ -72,7 +72,6 @@ export default class ImportCommand implements CliCommandInterface {
     this.salt = salt;
 
     await this.databaseService.connect(uri);
-
     const fileReader = new TSVFileReader(filename.trim());
 
     fileReader.on('line', this.onLine);
