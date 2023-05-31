@@ -19,6 +19,7 @@ import {ConfigInterface} from '../../common/config/config.interface.js';
 import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import UploadImagePreviewResponse from './rdo/upload-image.rdo.js';
 import { GetOffersQuery } from "./query/get-offers.query.js";
+import { AdminRouteMiddleware } from "../../common/middlewares/admin-route.middleware.js";
 
 @injectable()
 export default class OfferController extends Controller {
@@ -41,6 +42,7 @@ export default class OfferController extends Controller {
       handler: this.create,
       middlewares: [
         new PrivateRouteMiddleware(),
+        new AdminRouteMiddleware(),
         new ValidateDtoMiddleware(CreateOfferDto),
       ]
     });
@@ -96,7 +98,8 @@ export default class OfferController extends Controller {
 
   public async create(
     req: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
-    res: Response): Promise<void> {
+    res: Response
+  ): Promise<void> {
     const result = await this.offerService.create(req.body);
     this.send(
       res,

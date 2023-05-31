@@ -81,11 +81,10 @@ export default class UserController extends Controller {
         'UserController'
       );
     }
-
     const token = await createJWT(
       JWT_ALGORITHM,
       this.configService.get('JWT_SECRET'),
-      { email: user.email, id: user.id}
+      { email: user.email, id: user.id, hasAdminRights: user.hasAdminRights }
     );
 
     this.ok(res, {

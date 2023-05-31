@@ -82,7 +82,6 @@ export const transformProperty = (
   someObject: UnknownObject,
   transformFn: (object: UnknownObject) => void
 ) => {
-  console.log(someObject);
   Object.keys(someObject)
     .forEach((key) => {
       if (key === property) {

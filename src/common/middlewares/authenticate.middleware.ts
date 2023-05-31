@@ -7,6 +7,12 @@ import {StatusCodes} from 'http-status-codes';
 
 const STATUS_CODE_INVALID_TOKEN = 498;
 
+declare module "jose" {
+  export interface JwtPayload {
+    hasAdminRights: boolean;
+  }
+}
+
 export class AuthenticateMiddleware implements MiddlewareInterface {
   constructor(private readonly jwtSecret: string) {}
 
@@ -20,7 +26,7 @@ export class AuthenticateMiddleware implements MiddlewareInterface {
 
     try {
       const {payload} = await jose.jwtVerify(token, createSecretKey(this.jwtSecret, 'utf-8'));
-      req.user = { email: payload.email as string, id: payload.id as string };
+      req.user = { email: payload.email as string, id: payload.id as string, hasAdminRights: payload.hasAdminRights as boolean};
 
       return next();
     } catch {
