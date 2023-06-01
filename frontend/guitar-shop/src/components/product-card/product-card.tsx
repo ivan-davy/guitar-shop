@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
 import dayjs from 'dayjs';
-
-function handleDelete() {
-  // eslint-disable-next-line no-console
-  console.log('delete');
-}
-
+import { useAppDispatch } from '../../hooks/store-hooks';
+import { deleteProductAction } from '../../store/api-actions';
+import { deleteProductFromStateAction } from '../../store/products/actions';
 
 type ProductCardPropType = {
   id: string;
@@ -17,6 +14,13 @@ type ProductCardPropType = {
 }
 
 export default function ProductCard({id, name, image, postedDate, price}: ProductCardPropType) {
+  const dispatch = useAppDispatch();
+
+  function handleDelete() {
+    dispatch(deleteProductAction({ productId: id }));
+    dispatch(deleteProductFromStateAction(id));
+  }
+
   return(
     <li className="catalog-item">
       <div className="catalog-item__data">
@@ -38,7 +42,7 @@ export default function ProductCard({id, name, image, postedDate, price}: Produc
       </div>
       <div className="catalog-item__buttons">
         <Link className="button button--small button--black-border"
-          to={PageRouteEnum.EditProduct.concat(`/${id }`)}
+          to={PageRouteEnum.EditProduct.concat(`/${id}`)}
           aria-label="Редактировать товар"
         >
           Редактировать

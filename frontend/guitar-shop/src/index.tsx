@@ -18,7 +18,7 @@ store.dispatch(checkAuthAction());
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <HistoryRouter history={browserHistory} basename={'/guitar-shop'}>
+      <HistoryRouter history={browserHistory} basename={''}>
         <ToastContainer/>
         <App/>
       </HistoryRouter>

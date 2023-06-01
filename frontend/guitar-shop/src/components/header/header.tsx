@@ -14,13 +14,13 @@ export default function Header(): JSX.Element {
     <header className="header" id="header">
       <div className="container">
         <div className="header__wrapper">
-          <Link className="header__logo logo" to={PageRouteEnum.Products}>
+          <Link className="header__logo logo" to={PageRouteEnum.SignIn}>
             <img className="logo__img" width="70" height="70" src="./guitar-shop/img/svg/logo.svg" alt="Логотип"/>
           </Link>
           <nav className="main-nav">
             <ul className="main-nav__list">
               <li className="main-nav__item"><a className="link main-nav__link">Каталог</a></li>
-              { authStatus === AuthorizationStatusEnum.Auth ?
+              { authStatus === AuthorizationStatusEnum.Auth && userData.hasAdminRights ?
                 <li className="main-nav__item"><Link to={PageRouteEnum.Products} className="link main-nav__link">Список товаров</Link></li> :
                 <><li className="main-nav__item"><a className="link main-nav__link">Где купить?</a></li>
                   <li className="main-nav__item"><a className="link main-nav__link">О нас</a></li>

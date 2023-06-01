@@ -6,8 +6,10 @@ import { getAdminRightsValue } from '../../store/user/selectors';
 import SignIn from '../sign-in/sign-in';
 import CommonLayout from '../../pages/common-layout/common-layout';
 import AdminRoute from '../admin-route/admin-route';
-import ProductsMenuScreen from '../products-menu/products-menu';
+import ProductsMenu from '../products-menu/products-menu';
 import Register from '../register/register';
+import ProductInfo from '../product-info/product-info';
+import NotFound from '../not-found/not-found';
 
 
 function App(): JSX.Element | null {
@@ -40,14 +42,21 @@ function App(): JSX.Element | null {
           </AdminRoute>
         }
       >
-        <Route path={''} element={<ProductsMenuScreen/>}/>
+        <Route path={''} element={<ProductsMenu/>}/>
       </Route>
 
       <Route
         path={PageRouteEnum.Product}
         element={<CommonLayout/>}
       >
-        <Route path={''} element={<ProductsMenuScreen/>}/>
+        <Route path={':id'} element={<ProductInfo/>}/>
+      </Route>
+
+      <Route
+        path='*'
+        element={<CommonLayout/>}
+      >
+        <Route path={'*'} element={<NotFound/>}/>
       </Route>
     </Routes>
   );
@@ -77,8 +86,5 @@ export default App;
           </AdminRoute>
         }
       />
-      <Route
-        path='*'
-        element={<NotFoundScreen/>}
-      />
+
  */

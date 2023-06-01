@@ -69,7 +69,7 @@ export const postProductAction = createAsyncThunk<PostProductReturnType, {
       const newProduct = (await api.post<ProductType>(
         `${ApiRouteEnum.Products}`, formData.product)).data;
       formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
-      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${newProduct.id as string}`));
+      dispatch(redirectToRouteAction(`${PageRouteEnum.Products}/${newProduct.id as string}`));
 
       return newProduct;
     } catch (err) {
@@ -98,7 +98,7 @@ export const updateProductAction = createAsyncThunk<UpdateProductReturnType, {
       const updatedProduct = (await api.patch<ProductType>(
         `${ApiRouteEnum.Products}/${productId}`, formData.product)).data;
       formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
-      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}/${updatedProduct.id as string}`));
+      dispatch(redirectToRouteAction(`${PageRouteEnum.Products}/${updatedProduct.id as string}`));
 
       return updatedProduct;
     } catch (err) {
@@ -110,6 +110,8 @@ export const updateProductAction = createAsyncThunk<UpdateProductReturnType, {
   }
 );
 
+
+// TODO: при попытке удалить товар сервер выкидывает unauthorized
 export const deleteProductAction = createAsyncThunk<void, {
   productId: string;
 }, {
@@ -123,7 +125,7 @@ export const deleteProductAction = createAsyncThunk<void, {
     try {
       await api.delete<ProductType>(
         `${ApiRouteEnum.Products}/${productId}`);
-      dispatch(redirectToRouteAction(`/guitar-shop${PageRouteEnum.Products}`));
+      dispatch(redirectToRouteAction(`${PageRouteEnum.Products}`));
     } catch (err) {
       toast.error('Something went wrong...');
       throw err;

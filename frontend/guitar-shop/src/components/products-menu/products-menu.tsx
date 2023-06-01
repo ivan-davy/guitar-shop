@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { fetchProductsAction } from '../../store/api-actions';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
 import { useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 export default function ProductsMenu(): JSX.Element {
   const products = useAppSelector(getProducts);
@@ -28,7 +29,7 @@ export default function ProductsMenu(): JSX.Element {
         <div className="container">
           <h1 className="product-list__title">Список товаров</h1>
           <ul className="breadcrumbs">
-            <li className="breadcrumbs__item"><a className="link" href="./main.html">Вход</a>
+            <li className="breadcrumbs__item"><Link className="link" to={PageRouteEnum.SignIn}>Вход</Link>
             </li>
             <li className="breadcrumbs__item"><a className="link">Товары</a>
             </li>

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import { ProductsStateType } from '../../types/states/products-state.type';
 import { NamespaceEnum } from '../../const/namespace.enum';
-import { changeFiltersAction, changeSortingAction } from './actions';
+import { changeFiltersAction, changeSortingAction, deleteProductFromStateAction } from './actions';
 import { fetchProductsAction } from '../api-actions';
 
 export const initialState: ProductsStateType = {
@@ -34,6 +34,11 @@ export const products = createSlice({
     builder
       .addCase(changeSortingAction, (state, action) => {
         state.sorting = action.payload;
+      });
+
+    builder
+      .addCase(deleteProductFromStateAction, (state, action) => {
+        state.products = state.products.filter((product) => product.id !== action.payload);
       });
   }
 });

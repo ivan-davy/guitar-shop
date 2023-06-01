@@ -118,7 +118,7 @@ export default class OfferController extends Controller {
         'OfferController'
       );
     }
-    const offerResponse = fillDTO(OfferRdo, offers);
+    const offerResponse = fillDTO(OfferRdo, offers[0]);
     this.ok(res, offerResponse);
   }
 

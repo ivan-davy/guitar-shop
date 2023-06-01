@@ -17,3 +17,8 @@ export const changeFiltersAction = createAction('products/filters/change',
 
 export const changeSortingAction = createAction('products/sorting/change',
   (sorting: SortingType) => ({ payload: sorting, }));
+
+export const deleteProductFromStateAction = createAction('products/delete-by-id',
+  (id: string) => ({ payload: id }));
+
+

@@ -42,12 +42,12 @@ Authorization: Bearer {{jwt_token}}
 ### getOfferById
 # Получить конкретное предложение по offerId
 
-GET http://localhost:4000/offers/64768d7c53f8210d34a4f133 HTTP/1.1
+GET http://localhost:4000/offers/6478d01671da470f851851da HTTP/1.1
 
 ### deleteOffer
 ## Удалить предложение по offerId
 
-DELETE http://localhost:4000/offers/647690c8c88888dec2bba249 HTTP/1.1
+DELETE http://localhost:4000/offers/647686fc77affb0db11387bc HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 
