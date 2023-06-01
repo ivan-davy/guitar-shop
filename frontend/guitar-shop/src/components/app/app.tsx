@@ -10,6 +10,8 @@ import ProductsMenu from '../products-menu/products-menu';
 import Register from '../register/register';
 import ProductInfo from '../product-info/product-info';
 import NotFound from '../not-found/not-found';
+import AddProduct from '../add-product/add-product';
+import EditProduct from '../edit-product/edit-product';
 
 
 function App(): JSX.Element | null {
@@ -53,6 +55,28 @@ function App(): JSX.Element | null {
       </Route>
 
       <Route
+        path={PageRouteEnum.AddProduct}
+        element={
+          <AdminRoute authorizationData={authData}>
+            <CommonLayout/>
+          </AdminRoute>
+        }
+      >
+        <Route path={''} element={<AddProduct/>}/>
+      </Route>
+
+      <Route
+        path={PageRouteEnum.EditProduct}
+        element={
+          <AdminRoute authorizationData={authData}>
+            <CommonLayout/>
+          </AdminRoute>
+        }
+      >
+        <Route path={':id'} element={<EditProduct/>}/>
+      </Route>
+
+      <Route
         path='*'
         element={<CommonLayout/>}
       >
@@ -65,10 +89,6 @@ function App(): JSX.Element | null {
 export default App;
 
 /*
-<Route
-        path={PageRouteEnum.Register}
-        element={<RegisterScreen/>}
-      />
 
       <Route
         path={PageRouteEnum.Product}
