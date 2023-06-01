@@ -36,7 +36,9 @@ export function validateProductState(state: ProductType) {
       .integer()
       .min(100)
       .max(1000000)
-      .required()
+      .required(),
+    id: Joi.string()
+      .optional()
   });
 
   return schema.validate(state);

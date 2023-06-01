@@ -1,71 +1,19 @@
 import React, { FormEvent, useReducer, useState } from 'react';
-import { ProductType } from '../../types/product.type';
 import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../../const/available-products';
 import dayjs from 'dayjs';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { postProductAction } from '../../store/api-actions';
 import { FormStatusEnum } from '../../const/form-status.enum';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
 import { validateProductState } from '../../util/validate-product-state';
 import { toast } from 'react-toastify';
-
-function reducer(state: ProductType, action: {type: string; payload: string | number}): ProductType {
-  switch (action.type) {
-    case 'name-change': {
-      return {
-        ...state,
-        name: action.payload as string,
-      } as ProductType;
-    }
-    case 'price-change': {
-      return {
-        ...state,
-        price: action.payload as number,
-      } as ProductType;
-    }
-    case 'vendor-code-change': {
-      return {
-        ...state,
-        vendorCode: action.payload as string,
-      } as ProductType;
-    }
-    case 'description-change': {
-      return {
-        ...state,
-        description: action.payload as string,
-      } as ProductType;
-    }
-    case 'type-change': {
-      return {
-        ...state,
-        type: action.payload as string,
-      } as ProductType;
-    }
-    case 'strings-change': {
-      return {
-        ...state,
-        strings: action.payload as number,
-      } as ProductType;
-    }
-  }
-  throw Error(`Unknown action: ${ action.type}`);
-}
-
-const initialState: ProductType = {
-  name: '',
-  description: '',
-  postedDate: dayjs().toISOString(),
-  price: 0,
-  vendorCode: '',
-  image: 'PLACEHOLDER-IMAGE-STRING.png', //TODO: сделать загрузку изображения
-  type: AvailableGuitarTypesEnum.Acoustic,
-  strings: AvailableGuitarStringsEnum.Four,
-};
+import { reducer } from '../../util/product-form/reducer';
+import { INITIAL_PRODUCT_STATE } from '../../util/product-form/initial-product-state.const';
 
 export default function AddProduct(): JSX.Element {
   const [formStatus, setFormStatus] = useState(FormStatusEnum.Available);
-  const [state, reducerDispatch] = useReducer(reducer, initialState);
+  const [state, reducerDispatch] = useReducer(reducer, INITIAL_PRODUCT_STATE);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -115,7 +63,9 @@ export default function AddProduct(): JSX.Element {
       return;
     }
     setFormStatus(FormStatusEnum.Submitted);
-    dispatch(postProductAction({product: state, setFormSubmitStateCb: (status) => setFormStatus(status)}));
+    dispatch(postProductAction({
+      product: state,
+      setFormSubmitStateCb: (status) => setFormStatus(status)}));
     navigate(PageRouteEnum.Products);
   }
 
@@ -125,9 +75,9 @@ export default function AddProduct(): JSX.Element {
         <div className="container">
           <h1 className="add-item__title">Новый товар</h1>
           <ul className="breadcrumbs">
-            <li className="breadcrumbs__item"><a className="link" href="./main.html">Вход</a>
+            <li className="breadcrumbs__item"><Link to={PageRouteEnum.SignIn} className="link">Вход</Link>
             </li>
-            <li className="breadcrumbs__item"><a className="link">Товары</a>
+            <li className="breadcrumbs__item"><Link to={PageRouteEnum.Products} className="link">Товары</Link>
             </li>
             <li className="breadcrumbs__item"><a className="link">Новый товар</a>
             </li>
