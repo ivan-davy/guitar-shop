@@ -13,7 +13,6 @@ import UserResponse from './response/user.response.js';
 import {ConfigInterface} from '../../common/config/config.interface.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
-import LoggedUserResponse from './response/logged-user.response.js';
 import {JWT_ALGORITHM} from './user.constant.js';
 
 @injectable()
@@ -88,13 +87,13 @@ export default class UserController extends Controller {
     );
 
     this.ok(res, {
-      ...fillDTO(LoggedUserResponse, user),
+      ...fillDTO(UserResponse, user),
       token
     });
   }
 
   public async checkAuthenticate(req: Request, res: Response) {
-    if (! req.user) {
+    if (!req.user) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
         'Unauthorized',
@@ -102,6 +101,6 @@ export default class UserController extends Controller {
       );
     }
     const user = await this.userService.findByEmail(req.user.email);
-    this.ok(res, fillDTO(LoggedUserResponse, user));
+    this.ok(res, fillDTO(UserResponse, user));
   }
 }

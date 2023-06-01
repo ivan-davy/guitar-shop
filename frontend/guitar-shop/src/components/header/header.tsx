@@ -19,8 +19,12 @@ export default function Header(): JSX.Element {
           </Link>
           <nav className="main-nav">
             <ul className="main-nav__list">
-              <li className="main-nav__item"><Link to={PageRouteEnum.NotFound} className="link main-nav__link">Каталог</Link></li>
-              <li className="main-nav__item"><Link to={PageRouteEnum.Products} className="link main-nav__link">Список товаров</Link></li>
+              <li className="main-nav__item"><a className="link main-nav__link">Каталог</a></li>
+              { authStatus === AuthorizationStatusEnum.Auth ?
+                <li className="main-nav__item"><Link to={PageRouteEnum.Products} className="link main-nav__link">Список товаров</Link></li> :
+                <><li className="main-nav__item"><a className="link main-nav__link">Где купить?</a></li>
+                  <li className="main-nav__item"><a className="link main-nav__link">О нас</a></li>
+                </>}
             </ul>
           </nav>
           <div className="header__container">

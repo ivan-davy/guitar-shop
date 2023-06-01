@@ -161,7 +161,7 @@ export const loginAction = createAsyncThunk<LoginReturnType, AuthDataType, {
   state: StateType;
   extra: AxiosInstance;
 }>(
-  'user/apiLogin',
+  'user/api/login',
   async ({email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<UserType>(ApiRouteEnum.SignIn, {email, password});
 
@@ -183,7 +183,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   state: StateType;
   extra: AxiosInstance;
 }>(
-  'user/apiLogout',
+  'user/api/logout',
   (_arg, {dispatch, extra: api}) => {
     //await api.delete(ApiRouteEnum.SignOut);
     dropToken();
