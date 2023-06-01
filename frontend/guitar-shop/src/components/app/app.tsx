@@ -3,10 +3,11 @@ import {useAppSelector} from '../../hooks/store-hooks';
 import {getAuthStatus} from '../../store/service/selectors';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
 import { getAdminRightsValue } from '../../store/user/selectors';
-import SignInScreen from '../../pages/sign-in/sign-in.screen';
+import SignIn from '../sign-in/sign-in';
 import CommonLayout from '../../pages/common-layout/common-layout';
 import AdminRoute from '../admin-route/admin-route';
-import ProductsMenu from '../products-menu/products-menu';
+import ProductsMenuScreen from '../products-menu/products-menu';
+import Register from '../register/register';
 
 
 function App(): JSX.Element | null {
@@ -21,7 +22,14 @@ function App(): JSX.Element | null {
         path={PageRouteEnum.SignIn}
         element={<CommonLayout/>}
       >
-        <Route path={''} element={<SignInScreen/>} />
+        <Route path={''} element={<SignIn/>} />
+      </Route>
+
+      <Route
+        path={PageRouteEnum.Register}
+        element={<CommonLayout/>}
+      >
+        <Route path={''} element={<Register/>} />
       </Route>
 
       <Route
@@ -32,7 +40,14 @@ function App(): JSX.Element | null {
           </AdminRoute>
         }
       >
-        <Route path={''} element={<ProductsMenu/>}/>
+        <Route path={''} element={<ProductsMenuScreen/>}/>
+      </Route>
+
+      <Route
+        path={PageRouteEnum.Product}
+        element={<CommonLayout/>}
+      >
+        <Route path={''} element={<ProductsMenuScreen/>}/>
       </Route>
     </Routes>
   );

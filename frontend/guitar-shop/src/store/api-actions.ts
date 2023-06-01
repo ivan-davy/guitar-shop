@@ -12,6 +12,7 @@ import { FormStatusEnum } from '../const/form-status.enum';
 import { ProductUpdateType } from '../types/product-update.type';
 import { UserType } from '../types/user.type';
 import { AuthDataType } from '../types/auth-data.type';
+import { RegisterDataType } from '../types/register-data.type';
 
 type FetchProductsReturnType = ProductType[];
 export const fetchProductsAction = createAsyncThunk<FetchProductsReturnType, undefined, {
@@ -154,6 +155,28 @@ export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, 
   },
 );
 
+type RegisterReturnType = UserType;
+export const registerAction = createAsyncThunk<RegisterReturnType, RegisterDataType, {
+  dispatch: AppDispatchType;
+  state: StateType;
+  extra: AxiosInstance;
+}>(
+  'user/api/register',
+  async ({name, email, password}, {dispatch, extra: api}) => {
+    const {data} = await api.post<UserType>(ApiRouteEnum.Register, {name, email, password});
+
+    const userData: RegisterReturnType = {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      hasAdminRights: data.hasAdminRights,
+      token: data.token,
+    };
+
+    saveToken(userData.token as string);
+    return userData;
+  },
+);
 
 type LoginReturnType = UserType;
 export const loginAction = createAsyncThunk<LoginReturnType, AuthDataType, {
