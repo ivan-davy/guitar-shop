@@ -21,10 +21,23 @@ export const fetchProductsDataAction = createAsyncThunk<FetchProductsReturnType,
   extra: AxiosInstance;
 }>(
   'products/api/get-all',
-  async (_, {dispatch, extra: api}) => {
+  async (_, {getState, dispatch, extra: api}) => {
     let fetchedProductData = { offers: [] as ProductType[], totalOfferQty: 0 };
+    const filters = getState().products.filters;
+    const sorting = getState().products.sorting;
+    //const activePage = getState().products.activePage;
+    const activePage = 1;
+    const params = {
+      type: filters.type,
+      strings: filters.strings,
+      sortBy: sorting.by,
+      sortDirection: sorting.direction,
+      page: activePage,
+    };
     try {
-      fetchedProductData = (await api.get<{ offers: ProductType[]; totalOfferQty: number }>(ApiRouteEnum.Products)).data;
+      fetchedProductData = (await api.get<{ offers: ProductType[]; totalOfferQty: number }>(ApiRouteEnum.Products, {
+        params,
+      })).data;
     }
     catch (err) {
       dispatch(redirectToRouteAction(PageRouteEnum.NotFound));

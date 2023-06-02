@@ -1,18 +1,20 @@
 import { ProductType } from '../../types/product.type';
 import ProductCard from '../product-card/product-card';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { getProductsData } from '../../store/products/selectors';
+import { getFilters, getProducts, getSorting } from '../../store/products/selectors';
 import { useEffect } from 'react';
 import { fetchProductsDataAction } from '../../store/api-actions';
 
 
 export default function ProductList(): JSX.Element {
-  const products = useAppSelector(getProductsData).products;
+  const products = useAppSelector(getProducts);
+  const filters = useAppSelector(getFilters);
+  const sorting = useAppSelector(getSorting);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchProductsDataAction());
-  }, []);
+  }, [filters, sorting]);
 
   return (
     <div className="catalog-cards">

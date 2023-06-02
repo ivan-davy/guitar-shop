@@ -17,13 +17,13 @@ Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
 {
-  "name": "GUITAR GUITAR GUITAR GUITAR GUITAR",
+  "name": "54GUITAR GUITAR GUITAR GUITAR GUITAR",
   "description": "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST",
   "postedDate": "2030-04-06T08:45:40.283Z",
   "image": "https://www.google.com/file/35.jpg",
   "type": "Acoustic",
   "vendorCode": "VENDORCODE111",
-  "strings": 6,
+  "strings": 4,
   "price": 10067
 }
 

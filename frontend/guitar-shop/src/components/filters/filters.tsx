@@ -26,7 +26,9 @@ export default function Filters(): JSX.Element {
     setFiltersState({
       ...filtersState, type: currentTypes,
     });
-    dispatch(changeFiltersAction(filtersState));
+    dispatch(changeFiltersAction({
+      ...filtersState, type: currentTypes,
+    }));
   }
   function handleStringsChange(pressedOption: number) {
     let currentStrings = [...filtersState.strings];
@@ -38,7 +40,9 @@ export default function Filters(): JSX.Element {
     setFiltersState({
       ...filtersState, strings: currentStrings,
     });
-    dispatch(changeFiltersAction(filtersState));
+    dispatch(changeFiltersAction({
+      ...filtersState, strings: currentStrings,
+    }));
   }
 
   return (
@@ -52,8 +56,9 @@ export default function Filters(): JSX.Element {
               <input className="visually-hidden" type="checkbox"
                 id={guitarType}
                 name={guitarType}
-                onClick={() => handleTypeChange(guitarType)}
+                onClick={(event) => handleTypeChange(guitarType)}
                 checked={filtersState.type.includes(guitarType)}
+                onChange={(event) => null }
               />
               <label htmlFor={guitarType}>{GUITAR_TYPES_NAMES[guitarType]}</label>
             </div>))
@@ -68,15 +73,16 @@ export default function Filters(): JSX.Element {
                 <input className="visually-hidden" type="checkbox"
                   id={guitarStrings.toString()}
                   name={guitarStrings.toString()}
-                  onClick={() => handleStringsChange(Number(guitarStrings))}
+                  onClick={(event) => handleStringsChange(Number(guitarStrings))}
                   checked={filtersState.strings.includes(Number(guitarStrings))}
+                  onChange={(event) => null }
                 />
                 <label htmlFor={guitarStrings.toString()}>{guitarStrings}</label>
               </div>))
         }
       </fieldset>
       <button className="catalog-filter__reset-btn button button--black-border button--medium"
-        type="reset"
+        type="reset" onClick={() => setFiltersState(INITIAL_FILTERS_STATE)}
       >
         Очистить
       </button>
