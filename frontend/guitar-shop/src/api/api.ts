@@ -1,5 +1,5 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
-import { dropToken, getToken } from './token';
+import { getToken } from './token';
 import {toast} from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 
@@ -22,7 +22,6 @@ export const createApi = (): AxiosInstance => {
 
   api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      dropToken();
       const token = getToken();
       if (token && config.headers) {
         config.headers['Authorization'] = `Bearer ${token}`;

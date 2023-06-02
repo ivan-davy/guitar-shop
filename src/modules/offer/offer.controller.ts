@@ -90,9 +90,9 @@ export default class OfferController extends Controller {
   public async find(req: Request, res: Response): Promise<void> {
     const query = new GetOffersQuery();
     query.fill(req.query);
-    const offers = await this.offerService.find(query);
-    const offersResponse = fillDTO(OfferRdo, offers);
-    this.send(res, StatusCodes.OK, offersResponse);
+    const offersData = await this.offerService.find(query);
+    const responseData = fillDTO(OfferRdo, offersData.offers);
+    this.send(res, StatusCodes.OK, { offers: responseData, totalOfferQty: offersData.totalOfferQty});
   }
 
   public async create(

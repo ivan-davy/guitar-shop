@@ -57,7 +57,6 @@ export default function AddProduct(): JSX.Element {
     evt.preventDefault();
     setFormStatus(FormStatusEnum.Disabled);
     const validationResult = validateProductState(state);
-    console.log(validationResult);
     if (validationResult.error) {
       toast.error(validationResult.error.message);
       setFormStatus(FormStatusEnum.Available);

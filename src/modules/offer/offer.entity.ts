@@ -1,5 +1,4 @@
 import typegoose, {defaultClasses, getModelForClass} from '@typegoose/typegoose';
-import {OfferType} from '../../types/offer.type.js';
 import {GuitarTypeEnum} from '../../types/guitar-type.enum.js';
 import dayjs from "dayjs";
 
@@ -52,7 +51,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     type: () => String,
     enum: GuitarTypeEnum
   })
-  public type!: OfferType;
+  public type!: string;
 
   @prop({
     required: true,

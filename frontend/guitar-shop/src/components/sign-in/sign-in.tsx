@@ -54,8 +54,9 @@ export default function SignIn(): JSX.Element {
   useEffect(() => {
     if (authStatus === AuthorizationStatusEnum.Auth) {
       dispatch(redirectToRouteAction(PageRouteEnum.Products));
+      navigate(PageRouteEnum.Products);
     }
-  }, []);
+  }, [authStatus]);
 
   return (
     <main className="page-content">

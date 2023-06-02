@@ -1,14 +1,16 @@
-import {inject, injectable} from 'inversify';
-import {OfferServiceInterface} from './offer-service.interface.js';
-import CreateOfferDto from './dto/create-offer.dto.js';
-import {DocumentType, types} from '@typegoose/typegoose';
-import {OfferEntity} from './offer.entity.js';
-import {Component} from '../../types/component.types.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import UpdateOfferDto from './dto/update-offer.dto.js';
-import mongoose from 'mongoose';
+import { inject, injectable } from "inversify";
+import { OfferServiceInterface } from "./offer-service.interface.js";
+import CreateOfferDto from "./dto/create-offer.dto.js";
+import { DocumentType, types } from "@typegoose/typegoose";
+import { OfferEntity } from "./offer.entity.js";
+import { Component } from "../../types/component.types.js";
+import { LoggerInterface } from "../../common/logger/logger.interface.js";
+import UpdateOfferDto from "./dto/update-offer.dto.js";
+import mongoose from "mongoose";
 import { GetOffersQuery } from "./query/get-offers.query.js";
 import { DEFAULT_OFFERS_PER_PAGE } from "./offer.const.js";
+import { OffersReturnType } from "../../types/offers-return.type";
+import { OfferType } from "../../types/offer.type";
 
 
 @injectable()
@@ -34,7 +36,7 @@ export default class OfferService implements OfferServiceInterface {
       ]).exec();
   }
 
-public async find(query: GetOffersQuery): Promise<DocumentType<OfferEntity>[]> {
+  public async find(query: GetOffersQuery): Promise<OffersReturnType> {
     const findObj = {
       type: query.type,
       strings: query.strings
@@ -45,13 +47,19 @@ public async find(query: GetOffersQuery): Promise<DocumentType<OfferEntity>[]> {
     if (!findObj.strings) {
       delete findObj.strings;
     }
+    console.log(query);
 
-    return await this.offerModel
+    const totalOfferQty = (await this.offerModel
+      .find(findObj).exec()).length
+
+    const offers = (await this.offerModel
       .find(findObj)
-      .sort({[query.sortBy as string]: query.sortDirection})
-      .skip(DEFAULT_OFFERS_PER_PAGE * (query.page ?? 1))
-      .limit(DEFAULT_OFFERS_PER_PAGE)
-      .exec()
+      .sort({ [query.sortBy as string]: query.sortDirection as (-1 | 1) })
+      .limit(DEFAULT_OFFERS_PER_PAGE * (query.page ?? 1))
+      .skip(DEFAULT_OFFERS_PER_PAGE * ((query.page ?? 1) - 1))
+      .exec())
+      .map((offer) => ({...offer.toObject(), postedDate: offer.postedDate.toISOString()}))
+    return { totalOfferQty, offers: offers as OfferType[] };
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {

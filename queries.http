@@ -5,7 +5,7 @@ GET http://localhost:3123/api HTTP/1.1
 ### getOffers
 # Получить список предложений
 
-GET http://localhost:4000/offers?sortBy=price&sortDirection=-1 HTTP/1.1
+GET http://localhost:4000/offers?page=2 HTTP/1.1
 Authorization: Bearer {{jwt_token}}
 
 
@@ -24,7 +24,7 @@ Authorization: Bearer {{jwt_token}}
   "type": "Acoustic",
   "vendorCode": "VENDORCODE111",
   "strings": 6,
-  "price": 100000
+  "price": 10067
 }
 
 ### updateOffer
@@ -42,7 +42,7 @@ Authorization: Bearer {{jwt_token}}
 ### getOfferById
 # Получить конкретное предложение по offerId
 
-GET http://localhost:4000/offers/6478d01671da470f851851da HTTP/1.1
+GET http://localhost:4000/offers/6479e6656220af91dfdf96e9 HTTP/1.1
 
 ### deleteOffer
 ## Удалить предложение по offerId
