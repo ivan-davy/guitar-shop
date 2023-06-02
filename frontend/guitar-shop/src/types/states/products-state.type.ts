@@ -1,7 +1,10 @@
 import { ProductType } from '../product.type';
 
 export type ProductsStateType = {
-  products: ProductType[];
+  productData: {
+    products: ProductType[];
+    totalProductQty: number;
+  };
   filters: {
     type: string[];
     strings: number[];

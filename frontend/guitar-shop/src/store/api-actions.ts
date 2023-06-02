@@ -14,7 +14,7 @@ import { UserType } from '../types/user.type';
 import { AuthDataType } from '../types/auth-data.type';
 import { RegisterDataType } from '../types/register-data.type';
 
-type FetchProductsReturnType = ProductType[];
+type FetchProductsReturnType = { products: ProductType[]; totalProductQty: number };
 export const fetchProductsAction = createAsyncThunk<FetchProductsReturnType, undefined, {
   dispatch: AppDispatchType;
   state: StateType;
@@ -22,16 +22,15 @@ export const fetchProductsAction = createAsyncThunk<FetchProductsReturnType, und
 }>(
   'products/api/get-all',
   async (_, {dispatch, extra: api}) => {
-    let products = [] as FetchProductsReturnType;
+    let productsData = { products: [], totalProductQty: 0 } as FetchProductsReturnType;
     try {
-      products = (await api.get<ProductType[]>(ApiRouteEnum.Products)).data;
+      productsData = (await api.get<FetchProductsReturnType>(ApiRouteEnum.Products)).data;
     }
     catch (err) {
       dispatch(redirectToRouteAction(PageRouteEnum.NotFound));
       throw err;
     }
-
-    return products;
+    return productsData;
   },
 );
 

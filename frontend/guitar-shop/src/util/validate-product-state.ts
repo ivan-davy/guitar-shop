@@ -1,7 +1,7 @@
 import { ProductType } from '../types/product.type';
 import Joi from 'joi';
 import { AllowedImageFormatsEnum } from '../const/allowed-image-formats.enum';
-import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../const/available-products';
+import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../const/available-products.enum';
 
 export function validateProductState(state: ProductType) {
   const schema = Joi.object({

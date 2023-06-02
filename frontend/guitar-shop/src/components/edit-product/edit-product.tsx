@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useReducer, useState } from 'react';
-import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../../const/available-products';
+import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../../const/available-products.enum';
 import dayjs from 'dayjs';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { fetchActiveAction, updateProductAction } from '../../store/api-actions';

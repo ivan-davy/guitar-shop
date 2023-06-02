@@ -1,6 +1,6 @@
 import { ProductType } from '../../types/product.type';
 import dayjs from 'dayjs';
-import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../../const/available-products';
+import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../../const/available-products.enum';
 
 export const INITIAL_PRODUCT_STATE: ProductType = {
   name: '',

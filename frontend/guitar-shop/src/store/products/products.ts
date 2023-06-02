@@ -3,12 +3,16 @@ import { ProductsStateType } from '../../types/states/products-state.type';
 import { NamespaceEnum } from '../../const/namespace.enum';
 import { changeFiltersAction, changeSortingAction, deleteProductFromStateAction } from './actions';
 import { fetchProductsAction } from '../api-actions';
+import { ProductType } from '../../types/product.type';
 
 export const initialState: ProductsStateType = {
-  products: [],
+  productData: {
+    products: [] as ProductType[],
+    totalProductQty: 0,
+  },
   filters: {
-    type: [],
-    strings: []
+    type: [] as string[],
+    strings: [] as number[],
   },
   sorting: {
     by: null,
@@ -23,7 +27,7 @@ export const products = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.productData = action.payload;
       });
 
     builder
@@ -38,7 +42,8 @@ export const products = createSlice({
 
     builder
       .addCase(deleteProductFromStateAction, (state, action) => {
-        state.products = state.products.filter((product) => product.id !== action.payload);
+        state.productData.products = state.productData.products.filter((product) => product.id !== action.payload);
+        state.productData.totalProductQty = state.productData.totalProductQty - 1;
       });
   }
 });
