@@ -13,4 +13,5 @@ export type ProductsStateType = {
     by: string | null;
     direction: number | null;
   };
+  currentPage: number;
 }

@@ -12,6 +12,8 @@ const INITIAL_FILTERS_STATE = {
   strings: [] as number[],
 };
 
+//TODO: сделать логику для блокировки полей
+
 export default function Filters(): JSX.Element {
   const [filtersState, setFiltersState] = useState(INITIAL_FILTERS_STATE);
   const dispatch = useAppDispatch();

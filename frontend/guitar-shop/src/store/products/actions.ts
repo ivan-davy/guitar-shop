@@ -13,4 +13,5 @@ export const changeSortingAction = createAction('products/sorting/change',
 export const deleteProductFromStateAction = createAction('products/delete-by-id',
   (id: string) => ({ payload: id }));
 
-
+export const changeCurrentPageAction = createAction('products/change-page',
+  (newPage: number) => ({payload: newPage}));
