@@ -28,7 +28,7 @@ export class GetOffersQuery {
 
   @Transform(({ value }) => +value)
   @IsOptional()
-  public page?: number = 1;
+  public page?: number = 1 as 1;
 
   public fill(object: GetOffersQueryType) {
     this.type = object.type ?? this.type;

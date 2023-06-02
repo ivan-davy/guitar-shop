@@ -55,10 +55,10 @@ export default class OfferService implements OfferServiceInterface {
     const offers = (await this.offerModel
       .find(findObj)
       .sort({ [query.sortBy as string]: query.sortDirection as (-1 | 1) })
-      .limit(DEFAULT_OFFERS_PER_PAGE * (query.page ?? 1))
-      .skip(DEFAULT_OFFERS_PER_PAGE * ((query.page ?? 1) - 1))
+      .limit(DEFAULT_OFFERS_PER_PAGE * (query.page || 1))
+      .skip(DEFAULT_OFFERS_PER_PAGE * ((query.page || 1) - 1))
       .exec())
-      .map((offer) => ({...offer.toObject(), postedDate: offer.postedDate.toISOString()}))
+      .map((offer) => ({...offer.toObject(), id: offer._id.toString(), postedDate: offer.postedDate.toISOString()}))
     return { totalOfferQty, offers: offers as OfferType[] };
   }
 

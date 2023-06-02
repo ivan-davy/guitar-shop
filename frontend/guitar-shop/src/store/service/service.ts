@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ServiceStateType } from '../../types/states/service-state.type';
 import { setLoadingStatusAction } from './actions';
 import {
-  checkAuthAction, deleteProductAction, fetchActiveAction, fetchProductsAction, loginAction,
+  checkAuthAction, deleteProductAction, fetchActiveAction, fetchProductsDataAction, loginAction,
   logoutAction, updateProductAction
 } from '../api-actions';
 import { AuthorizationStatusEnum } from '../../const/authorization-status.enum';
@@ -26,13 +26,13 @@ export const service = createSlice({
       });
 
     builder
-      .addCase(fetchProductsAction.pending, (state) => {
+      .addCase(fetchProductsDataAction.pending, (state) => {
         state.isDataLoading = true;
       })
-      .addCase(fetchProductsAction.fulfilled, (state) => {
+      .addCase(fetchProductsDataAction.fulfilled, (state) => {
         state.isDataLoading = false;
       })
-      .addCase(fetchProductsAction.rejected, (state) => {
+      .addCase(fetchProductsDataAction.rejected, (state) => {
         state.isDataLoading = false;
       });
 

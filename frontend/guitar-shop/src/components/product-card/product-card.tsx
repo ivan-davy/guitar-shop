@@ -15,8 +15,6 @@ type ProductCardPropType = {
 
 export default function ProductCard({id, name, image, postedDate, price}: ProductCardPropType) {
   const dispatch = useAppDispatch();
-  // eslint-disable-next-line no-console
-  console.log('RENDERED A CARD!');
 
   function handleDelete() {
     dispatch(deleteProductAction({ productId: id }));

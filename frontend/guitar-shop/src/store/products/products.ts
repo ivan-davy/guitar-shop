@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import { ProductsStateType } from '../../types/states/products-state.type';
 import { NamespaceEnum } from '../../const/namespace.enum';
 import { changeFiltersAction, changeSortingAction, deleteProductFromStateAction } from './actions';
-import { fetchProductsAction } from '../api-actions';
+import { fetchProductsDataAction } from '../api-actions';
 import { ProductType } from '../../types/product.type';
 
 export const initialState: ProductsStateType = {
@@ -26,8 +26,9 @@ export const products = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchProductsAction.fulfilled, (state, action) => {
-        state.productData = action.payload;
+      .addCase(fetchProductsDataAction.fulfilled, (state, action) => {
+        state.productData.products = action.payload.products;
+        state.productData.totalProductQty = action.payload.totalProductQty;
       });
 
     builder

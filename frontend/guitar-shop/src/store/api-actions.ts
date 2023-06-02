@@ -15,22 +15,22 @@ import { AuthDataType } from '../types/auth-data.type';
 import { RegisterDataType } from '../types/register-data.type';
 
 type FetchProductsReturnType = { products: ProductType[]; totalProductQty: number };
-export const fetchProductsAction = createAsyncThunk<FetchProductsReturnType, undefined, {
+export const fetchProductsDataAction = createAsyncThunk<FetchProductsReturnType, undefined, {
   dispatch: AppDispatchType;
   state: StateType;
   extra: AxiosInstance;
 }>(
   'products/api/get-all',
   async (_, {dispatch, extra: api}) => {
-    let productsData = { products: [], totalProductQty: 0 } as FetchProductsReturnType;
+    let fetchedProductData = { offers: [] as ProductType[], totalOfferQty: 0 };
     try {
-      productsData = (await api.get<FetchProductsReturnType>(ApiRouteEnum.Products)).data;
+      fetchedProductData = (await api.get<{ offers: ProductType[]; totalOfferQty: number }>(ApiRouteEnum.Products)).data;
     }
     catch (err) {
       dispatch(redirectToRouteAction(PageRouteEnum.NotFound));
       throw err;
     }
-    return productsData;
+    return { products: fetchedProductData.offers, totalProductQty: fetchedProductData.totalOfferQty };
   },
 );
 
