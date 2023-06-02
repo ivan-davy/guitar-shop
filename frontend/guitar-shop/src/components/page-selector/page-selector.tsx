@@ -45,7 +45,7 @@ export default function PageSelector(): JSX.Element {
           </li>
         ))
       }
-      { (totalProductQty / PRODUCTS_PER_PAGE) < NEXT_BUTTON_THRESHOLD || currentPage === (totalProductQty / PRODUCTS_PER_PAGE) ?
+      { (totalProductQty / PRODUCTS_PER_PAGE) < NEXT_BUTTON_THRESHOLD || currentPage === Math.ceil(totalProductQty / PRODUCTS_PER_PAGE) ?
         '' :
         (
           <li className="pagination__page pagination__page--next" id="next">

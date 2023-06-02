@@ -25,14 +25,13 @@ export const fetchProductsDataAction = createAsyncThunk<FetchProductsReturnType,
     let fetchedProductData = { offers: [] as ProductType[], totalOfferQty: 0 };
     const filters = getState().products.filters;
     const sorting = getState().products.sorting;
-    //const activePage = getState().products.activePage;
-    const activePage = 1;
+    const currentPage = getState().products.currentPage;
     const params = {
       type: filters.type,
       strings: filters.strings,
       sortBy: sorting.by,
       sortDirection: sorting.direction,
-      page: activePage,
+      page: currentPage,
     };
     try {
       fetchedProductData = (await api.get<{ offers: ProductType[]; totalOfferQty: number }>(ApiRouteEnum.Products, {

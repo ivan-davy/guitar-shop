@@ -47,16 +47,14 @@ export default class OfferService implements OfferServiceInterface {
     if (!findObj.strings) {
       delete findObj.strings;
     }
-    console.log(query);
-
     const totalOfferQty = (await this.offerModel
       .find(findObj).exec()).length
 
     const offers = (await this.offerModel
       .find(findObj)
       .sort({ [query.sortBy as string]: query.sortDirection as (-1 | 1) })
-      .limit(DEFAULT_OFFERS_PER_PAGE * (query.page || 1))
       .skip(DEFAULT_OFFERS_PER_PAGE * ((query.page || 1) - 1))
+      .limit(DEFAULT_OFFERS_PER_PAGE)
       .exec())
       .map((offer) => ({...offer.toObject(), id: offer._id.toString(), postedDate: offer.postedDate.toISOString()}))
     return { totalOfferQty, offers: offers as OfferType[] };

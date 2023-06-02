@@ -1,34 +1,35 @@
 {
   "api": {
     "names": [
-      "A very, very nice guitar",
-      "Truly a work of art",
-      "The best guitar EVER",
-      "This thing makes the best sounds",
-      "Want to look hardcore? Buy this!̯"
+      "Невменяемо офигенная гитара",
+      "Произведение искусства",
+      "ЛУЧШАЯ ГИТАРА НА СВЕТЕ!!!",
+      "Эта фигня издает забавные звуки!",
+      "Купи это, если хочешь выглядеть брутально!"
     ],
     "descriptions": [
-      "This is a placeholder description. The guitar is still awesome, though",
-      "Some letters just to fill the space. Make sure to order a guitar!",
-      "This will be the best purchase of your life."
+      "Это описание, написанное от балды. Но гитару все равно рекомендуем!",
+      "Буковки для того, чтобы сымитировать описание. Купите что-нибудь на сайте!",
+      "Описание лучшей гитары на планете Земля (не является публичной офертой)"
     ],
     "postedDates": [
-      "2022-04-06T08:45:40.283Z",
-      "2023-02-05T10:44:36.123Z",
-      "2022-06-01T15:05:56.200Z",
+      "2022-01-06T08:45:40.283Z",
+      "2022-02-05T10:44:36.123Z",
+      "2022-03-01T15:05:56.200Z",
       "2022-07-02T05:34:55.344Z",
-      "2022-08-19T19:46:01.001Z"
+      "2022-08-16T19:46:01.001Z",
+      "2023-01-10T19:46:01.001Z"
     ],
     "images": [
-      "http://localhost:4000/static/catalog-product-0@2x.png",
-      "http://localhost:4000/static/catalog-product-1@2x.png",
-      "http://localhost:4000/static/catalog-product-2@2x.png",
-      "http://localhost:4000/static/catalog-product-3@2x.png",
-      "http://localhost:4000/static/catalog-product-4@2x.png",
-      "http://localhost:4000/static/catalog-product-5@2x.png",
-      "http://localhost:4000/static/catalog-product-6@2x.png",
-      "http://localhost:4000/static/catalog-product-7@2x.png",
-      "http://localhost:4000/static/catalog-product-8@2x.png"
+      "catalog-product-0@2x.png",
+      "catalog-product-1@2x.png",
+      "catalog-product-2@2x.png",
+      "catalog-product-3@2x.png",
+      "catalog-product-4@2x.png",
+      "catalog-product-5@2x.png",
+      "catalog-product-6@2x.png",
+      "catalog-product-7@2x.png",
+      "catalog-product-8@2x.png"
     ],
     "vendorCodes": [
       "G4JFN4KKG3GGGH",

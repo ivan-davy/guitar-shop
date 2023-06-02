@@ -40,8 +40,8 @@ export default function ProductInfo(): JSX.Element {
 
         <div className="product-container">
           <img className="product-container__img"
-            src="../frontend/guitar-shop/public/img/content/catalog-product-1.png"
-            srcSet="../frontend/guitar-shop/public/img/content/catalog-product-1@2x.png 2x"
+            src={product?.image}
+            srcSet={product?.image}
             width="90" height="235" alt={product?.name}
           />
 
@@ -60,18 +60,20 @@ export default function ProductInfo(): JSX.Element {
               </a>
               <div className="tabs__content" id="specs">
                 <table className={`tabs__table ${selectedTab !== TabEnum.Specs ? 'hidden' : ''}`}>
-                  <tr className="tabs__table-row">
-                    <td className="tabs__title">Артикул:</td>
-                    <td className="tabs__value">{product?.vendorCode}</td>
-                  </tr>
-                  <tr className="tabs__table-row">
-                    <td className="tabs__title">Тип:</td>
-                    <td className="tabs__value">{product?.type}</td>
-                  </tr>
-                  <tr className="tabs__table-row">
-                    <td className="tabs__title">Количество струн:</td>
-                    <td className="tabs__value">{`${String(product?.strings)} струнная`}</td>
-                  </tr>
+                  <tbody>
+                    <tr className="tabs__table-row">
+                      <td className="tabs__title">Артикул:</td>
+                      <td className="tabs__value">{product?.vendorCode}</td>
+                    </tr>
+                    <tr className="tabs__table-row">
+                      <td className="tabs__title">Тип:</td>
+                      <td className="tabs__value">{product?.type}</td>
+                    </tr>
+                    <tr className="tabs__table-row">
+                      <td className="tabs__title">Количество струн:</td>
+                      <td className="tabs__value">{`${String(product?.strings)} струнная`}</td>
+                    </tr>
+                  </tbody>
                 </table>
                 <p className={`tabs__product-description ${selectedTab !== TabEnum.Description ? 'hidden' : ''}`}>
                   {product?.description}
