@@ -1,40 +1,79 @@
+import { useState } from 'react';
+import { useAppDispatch } from '../../hooks/store-hooks';
+import {
+  AvailableGuitarStringsEnum,
+  AvailableGuitarTypesEnum,
+  GUITAR_TYPES_NAMES
+} from '../../const/available-products.enum';
+import { changeFiltersAction } from '../../store/products/actions';
+
+const INITIAL_FILTERS_STATE = {
+  type: [] as string[],
+  strings: [] as number[],
+};
+
 export default function Filters(): JSX.Element {
+  const [filtersState, setFiltersState] = useState(INITIAL_FILTERS_STATE);
+  const dispatch = useAppDispatch();
+
+  function handleTypeChange(pressedOption: string) {
+    let currentTypes = [...filtersState.type];
+    if (!currentTypes.includes(pressedOption)) {
+      currentTypes.push(pressedOption);
+    } else {
+      currentTypes = currentTypes.filter((type) => type !== pressedOption);
+    }
+    setFiltersState({
+      ...filtersState, type: currentTypes,
+    });
+    dispatch(changeFiltersAction(filtersState));
+  }
+  function handleStringsChange(pressedOption: number) {
+    let currentStrings = [...filtersState.strings];
+    if (!currentStrings.includes(pressedOption)) {
+      currentStrings.push(pressedOption);
+    } else {
+      currentStrings = currentStrings.filter((strings) => strings !== pressedOption);
+    }
+    setFiltersState({
+      ...filtersState, strings: currentStrings,
+    });
+    dispatch(changeFiltersAction(filtersState));
+  }
+
   return (
     <form className="catalog-filter" action="#" method="post">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Тип гитар</legend>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="acoustic" name="acoustic"/>
-          <label htmlFor="electric">Акустические гитары</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="electric" name="electric" checked/>
-          <label htmlFor="electric">Электрогитары</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="ukulele" name="ukulele" checked/>
-          <label htmlFor="ukulele">Укулеле</label>
-        </div>
+        {
+          Object.values(AvailableGuitarTypesEnum).map((guitarType) => (
+            <div className="form-checkbox catalog-filter__block-item" key={guitarType}>
+              <input className="visually-hidden" type="checkbox"
+                id={guitarType}
+                name={guitarType}
+                onClick={() => handleTypeChange(guitarType)}
+                checked={filtersState.type.includes(guitarType)}
+              />
+              <label htmlFor={guitarType}>{GUITAR_TYPES_NAMES[guitarType]}</label>
+            </div>))
+        }
       </fieldset>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Количество струн</legend>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" checked/>
-          <label htmlFor="4-strings">4</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" checked/>
-          <label htmlFor="6-strings">6</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="7-strings" name="7-strings"/>
-          <label htmlFor="7-strings">7</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" disabled/>
-          <label htmlFor="12-strings">12</label>
-        </div>
+        {
+          Object.values(AvailableGuitarStringsEnum).filter((value) => !isNaN(Number(value)))
+            .map((guitarStrings) => (
+              <div className="form-checkbox catalog-filter__block-item" key={guitarStrings}>
+                <input className="visually-hidden" type="checkbox"
+                  id={guitarStrings.toString()}
+                  name={guitarStrings.toString()}
+                  onClick={() => handleStringsChange(Number(guitarStrings))}
+                  checked={filtersState.strings.includes(Number(guitarStrings))}
+                />
+                <label htmlFor={guitarStrings.toString()}>{guitarStrings}</label>
+              </div>))
+        }
       </fieldset>
       <button className="catalog-filter__reset-btn button button--black-border button--medium"
         type="reset"

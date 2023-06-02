@@ -11,6 +11,6 @@ export type ProductsStateType = {
   };
   sorting: {
     by: string | null;
-    direction: string | null;
+    direction: number | null;
   };
 }
