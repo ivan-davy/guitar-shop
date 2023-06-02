@@ -90,8 +90,6 @@ export default class OfferController extends Controller {
   public async find(req: Request, res: Response): Promise<void> {
     const query = new GetOffersQuery();
     query.fill(req.query);
-    console.log(query); // TODO: fix query
-    //query.limit = isNaN(Number(req.query.limit)) ? undefined : Number(req.query.limit);
     const offers = await this.offerService.find(query);
     const offersResponse = fillDTO(OfferRdo, offers);
     this.send(res, StatusCodes.OK, offersResponse);

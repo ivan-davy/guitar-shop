@@ -15,7 +15,7 @@ export default function Header(): JSX.Element {
       <div className="container">
         <div className="header__wrapper">
           <Link className="header__logo logo" to={PageRouteEnum.SignIn}>
-            <img className="logo__img" width="70" height="70" src="./guitar-shop/img/svg/logo.svg" alt="Логотип"/>
+            <img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип"/>
           </Link>
           <nav className="main-nav">
             <ul className="main-nav__list">

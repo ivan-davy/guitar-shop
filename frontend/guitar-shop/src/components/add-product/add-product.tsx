@@ -26,7 +26,7 @@ export default function AddProduct(): JSX.Element {
   function handlePriceChange(evt: React.FormEvent<HTMLInputElement>) {
     reducerDispatch({
       type: 'price-change',
-      payload: evt.currentTarget.value
+      payload: Number(evt.currentTarget.value),
     });
   }
   function handleVendorCodeChange(evt: React.FormEvent<HTMLInputElement>) {
@@ -57,6 +57,7 @@ export default function AddProduct(): JSX.Element {
     evt.preventDefault();
     setFormStatus(FormStatusEnum.Disabled);
     const validationResult = validateProductState(state);
+    console.log(validationResult);
     if (validationResult.error) {
       toast.error(validationResult.error.message);
       setFormStatus(FormStatusEnum.Available);

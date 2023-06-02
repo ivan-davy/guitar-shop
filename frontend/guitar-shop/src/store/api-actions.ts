@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { redirectToRouteAction, setLoadingStatusAction } from './service/actions';
-import { dropToken, saveToken } from '../api/token';
+import { saveToken } from '../api/token';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { ProductType } from '../types/product.type';
@@ -69,7 +69,7 @@ export const postProductAction = createAsyncThunk<PostProductReturnType, {
       const newProduct = (await api.post<ProductType>(
         `${ApiRouteEnum.Products}`, formData.product)).data;
       formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
-      dispatch(redirectToRouteAction(`${PageRouteEnum.Products}/${newProduct.id as string}`));
+      dispatch(redirectToRouteAction(`${PageRouteEnum.Products}`));
 
       return newProduct;
     } catch (err) {
@@ -98,7 +98,7 @@ export const updateProductAction = createAsyncThunk<UpdateProductReturnType, {
       const updatedProduct = (await api.patch<ProductType>(
         `${ApiRouteEnum.Products}/${productId}`, formData.product)).data;
       formData.setFormSubmitStateCb(FormStatusEnum.Submitted);
-      dispatch(redirectToRouteAction(`${PageRouteEnum.Products}/${updatedProduct.id as string}`));
+      dispatch(redirectToRouteAction(`${PageRouteEnum.Products}`));
 
       return updatedProduct;
     } catch (err) {
@@ -211,6 +211,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   'user/api/logout',
   (_arg, {dispatch, extra: api}) => {
     //await api.delete(ApiRouteEnum.SignOut);
-    dropToken();
+    //dropToken();
   },
 );
