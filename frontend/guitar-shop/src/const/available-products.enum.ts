@@ -14,9 +14,15 @@ export enum AvailableGuitarStringsEnum {
 type GuitarTypeNamesType = {
   [key: string]: string;
 }
-export const GUITAR_TYPES_NAMES: GuitarTypeNamesType = {
+export const GUITAR_TYPES_NAMES_PLURAL: GuitarTypeNamesType = {
   [AvailableGuitarTypesEnum.Acoustic]: 'Акустические гитары',
   [AvailableGuitarTypesEnum.Electric]: 'Электрогитары',
+  [AvailableGuitarTypesEnum.Ukulele]: 'Укулеле',
+};
+
+export const GUITAR_TYPES_NAMES: GuitarTypeNamesType = {
+  [AvailableGuitarTypesEnum.Acoustic]: 'Акустическая гитара',
+  [AvailableGuitarTypesEnum.Electric]: 'Электрогитара',
   [AvailableGuitarTypesEnum.Ukulele]: 'Укулеле',
 };
 

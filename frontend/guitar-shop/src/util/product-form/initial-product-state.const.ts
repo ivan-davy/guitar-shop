@@ -10,5 +10,5 @@ export const INITIAL_PRODUCT_STATE: ProductType = {
   vendorCode: '',
   image: 'placeholder-guitar-image.png',
   type: AvailableGuitarTypesEnum.Acoustic,
-  strings: AvailableGuitarStringsEnum.Four
+  strings: AvailableGuitarStringsEnum.Six
 };

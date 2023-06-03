@@ -788,6 +788,10 @@ button,
           transform: translateY(-50%);
 }
 
+.input-radio input:disabled + label {
+  text-decoration: line-through;
+}
+
 .custom-input label {
   display: flex;
   flex-direction: column;

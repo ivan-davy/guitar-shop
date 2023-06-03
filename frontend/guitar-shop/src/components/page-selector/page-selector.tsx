@@ -20,6 +20,10 @@ export default function PageSelector(): JSX.Element {
     );
   const dispatch = useAppDispatch();
 
+  if (currentPage > topBoundary && topBoundary !== 0) {
+    setCurrentPage(1);
+  }
+
   function handleNextPage(evt: SyntheticEvent) {
     evt.preventDefault();
     setCurrentPage(currentPage + 1);

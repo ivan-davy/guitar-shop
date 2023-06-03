@@ -1,5 +1,9 @@
 import React, { FormEvent, useReducer, useState } from 'react';
-import { AvailableGuitarStringsEnum, AvailableGuitarTypesEnum } from '../../const/available-products.enum';
+import {
+  AvailableGuitarStringsEnum,
+  AvailableGuitarTypesEnum,
+  GUITAR_TYPES_NAMES
+} from '../../const/available-products.enum';
 import dayjs from 'dayjs';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { postProductAction } from '../../store/api-actions';
@@ -11,12 +15,14 @@ import { toast } from 'react-toastify';
 import { reducer } from '../../util/product-form/reducer';
 import { INITIAL_PRODUCT_STATE } from '../../util/product-form/initial-product-state.const';
 import { BASE_URL } from '../../api/api';
+import { filterLockLogic } from '../../util/filter-lock-logic';
 
 // TODO: сделать загрузку изображения
 
 export default function AddProduct(): JSX.Element {
   const [formStatus, setFormStatus] = useState(FormStatusEnum.Available);
   const [state, reducerDispatch] = useReducer(reducer, INITIAL_PRODUCT_STATE);
+  const allowedFilterOptions = filterLockLogic({ type: [state.type], strings: [state.strings] });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -79,7 +85,6 @@ export default function AddProduct(): JSX.Element {
       setFormStatus(FormStatusEnum.Available);
       return;
     }
-    setFormStatus(FormStatusEnum.Submitted);
     dispatch(postProductAction({
       product: state,
       setFormSubmitStateCb: (status) => setFormStatus(status)}));
@@ -117,43 +122,30 @@ export default function AddProduct(): JSX.Element {
                 </div>
               </div>
               <div className="input-radio add-item__form-radio"><span>Выберите тип товара</span>
-                <input type="radio" id="guitar" name="item-type" value="Acoustic"
-                  checked={state.type === AvailableGuitarTypesEnum.Acoustic}
-                  onChange={handleTypeChange}
-                />
-                <label htmlFor="guitar">Акустическая гитара</label>
-                <input type="radio" id="el-guitar" name="item-type" value="Electric"
-                  checked={state.type === AvailableGuitarTypesEnum.Electric}
-                  onChange={handleTypeChange}
-                />
-                <label htmlFor="el-guitar">Электрогитара</label>
-                <input type="radio" id="ukulele" name="item-type" value="Ukulele"
-                  checked={state.type === AvailableGuitarTypesEnum.Ukulele}
-                  onChange={handleTypeChange}
-                />
-                <label htmlFor="ukulele">Укулеле</label>
+                {
+                  Object.values(AvailableGuitarTypesEnum).map((guitarType) => (
+                    <React.Fragment key={`fragment-${guitarType}`}>
+                      <input key={`${guitarType}-input`} type="radio" id={`${guitarType} type`} name="item-type" value={guitarType}
+                        checked={state.type === guitarType}
+                        onChange={handleTypeChange}
+                        disabled={!allowedFilterOptions.type.includes(guitarType)}
+                      /><label key={`${guitarType}-label`} htmlFor={`${guitarType} type`}>{GUITAR_TYPES_NAMES[guitarType]}</label>
+                    </React.Fragment>))
+                }
               </div>
               <div className="input-radio add-item__form-radio"><span>Количество струн</span>
-                <input type="radio" id="string-qty-4" name="string-qty" value="4"
-                  checked={state.strings === AvailableGuitarStringsEnum.Four}
-                  onChange={handleStringsChange}
-                />
-                <label htmlFor="string-qty-4">4</label>
-                <input type="radio" id="string-qty-6" name="string-qty" value="6"
-                  checked={state.strings === AvailableGuitarStringsEnum.Six}
-                  onChange={handleStringsChange}
-                />
-                <label htmlFor="string-qty-6">6</label>
-                <input type="radio" id="string-qty-7" name="string-qty" value="7"
-                  checked={state.strings === AvailableGuitarStringsEnum.Seven}
-                  onChange={handleStringsChange}
-                />
-                <label htmlFor="string-qty-7">7</label>
-                <input type="radio" id="string-qty-12" name="string-qty" value="12"
-                  checked={state.strings === AvailableGuitarStringsEnum.Twelve}
-                  onChange={handleStringsChange}
-                />
-                <label htmlFor="string-qty-12">12</label>
+                {
+                  Object.values(AvailableGuitarStringsEnum).filter((value) => !isNaN(Number(value)))
+                    .map((guitarStrings) => (
+                      <React.Fragment key={`fragment-${guitarStrings}`}>
+                        <input key={`${guitarStrings}-strings-input`} type="radio" id={`string-qty-${guitarStrings}`} name="string-qty" value={guitarStrings}
+                          checked={state.strings === guitarStrings}
+                          onChange={handleStringsChange}
+                          disabled={!allowedFilterOptions.strings.includes(Number(guitarStrings))}
+                        /><label key={`${guitarStrings}-strings-label`} htmlFor={`string-qty-${guitarStrings}`}>{guitarStrings}</label>
+                      </React.Fragment>
+                    ))
+                }
               </div>
             </div>
             <div className="add-item__form-right">

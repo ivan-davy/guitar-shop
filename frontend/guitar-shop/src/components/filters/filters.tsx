@@ -3,9 +3,9 @@ import { useAppDispatch } from '../../hooks/store-hooks';
 import {
   AvailableGuitarStringsEnum,
   AvailableGuitarTypesEnum,
-  GUITAR_TYPES_NAMES
+  GUITAR_TYPES_NAMES_PLURAL
 } from '../../const/available-products.enum';
-import { changeFiltersAction } from '../../store/products/actions';
+import { changeCurrentPageAction, changeFiltersAction } from '../../store/products/actions';
 import { filterLockLogic } from '../../util/filter-lock-logic';
 
 const INITIAL_FILTERS_STATE = {
@@ -31,6 +31,7 @@ export default function Filters(): JSX.Element {
     dispatch(changeFiltersAction({
       ...filtersState, type: currentTypes,
     }));
+    dispatch(changeCurrentPageAction(1));
   }
   function handleStringsChange(pressedOption: number) {
     let currentStrings = [...filtersState.strings];
@@ -45,6 +46,7 @@ export default function Filters(): JSX.Element {
     dispatch(changeFiltersAction({
       ...filtersState, strings: currentStrings,
     }));
+    dispatch(changeCurrentPageAction(1));
   }
 
   return (
@@ -62,9 +64,8 @@ export default function Filters(): JSX.Element {
                 checked={filtersState.type.includes(guitarType)}
                 onChange={(event) => null }
                 disabled={!allowedFilterOptions.type.includes(guitarType)}
-
               />
-              <label htmlFor={guitarType}>{GUITAR_TYPES_NAMES[guitarType]}</label>
+              <label htmlFor={guitarType}>{GUITAR_TYPES_NAMES_PLURAL[guitarType]}</label>
             </div>))
         }
       </fieldset>
