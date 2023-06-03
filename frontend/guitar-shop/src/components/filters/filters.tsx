@@ -6,17 +6,17 @@ import {
   GUITAR_TYPES_NAMES
 } from '../../const/available-products.enum';
 import { changeFiltersAction } from '../../store/products/actions';
+import { filterLockLogic } from '../../util/filter-lock-logic';
 
 const INITIAL_FILTERS_STATE = {
   type: [] as string[],
   strings: [] as number[],
 };
 
-//TODO: сделать логику для блокировки полей
-
 export default function Filters(): JSX.Element {
   const [filtersState, setFiltersState] = useState(INITIAL_FILTERS_STATE);
   const dispatch = useAppDispatch();
+  const allowedFilterOptions = filterLockLogic(filtersState);
 
   function handleTypeChange(pressedOption: string) {
     let currentTypes = [...filtersState.type];
@@ -61,6 +61,8 @@ export default function Filters(): JSX.Element {
                 onClick={(event) => handleTypeChange(guitarType)}
                 checked={filtersState.type.includes(guitarType)}
                 onChange={(event) => null }
+                disabled={!allowedFilterOptions.type.includes(guitarType)}
+
               />
               <label htmlFor={guitarType}>{GUITAR_TYPES_NAMES[guitarType]}</label>
             </div>))
@@ -78,6 +80,7 @@ export default function Filters(): JSX.Element {
                   onClick={(event) => handleStringsChange(Number(guitarStrings))}
                   checked={filtersState.strings.includes(Number(guitarStrings))}
                   onChange={(event) => null }
+                  disabled={!allowedFilterOptions.strings.includes(Number(guitarStrings))}
                 />
                 <label htmlFor={guitarStrings.toString()}>{guitarStrings}</label>
               </div>))

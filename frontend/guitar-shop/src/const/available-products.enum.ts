@@ -1,9 +1,3 @@
-export const GUITAR_TYPES_NAMES = {
-  'Acoustic': 'Акустические гитары',
-  'Electric': 'Электрогитары',
-  'Ukulele': 'Укулеле',
-};
-
 export enum AvailableGuitarTypesEnum {
   Acoustic = 'Acoustic',
   Electric = 'Electric',
@@ -16,3 +10,23 @@ export enum AvailableGuitarStringsEnum {
   Seven = 7,
   Twelve = 12,
 }
+
+type GuitarTypeNamesType = {
+  [key: string]: string;
+}
+export const GUITAR_TYPES_NAMES: GuitarTypeNamesType = {
+  [AvailableGuitarTypesEnum.Acoustic]: 'Акустические гитары',
+  [AvailableGuitarTypesEnum.Electric]: 'Электрогитары',
+  [AvailableGuitarTypesEnum.Ukulele]: 'Укулеле',
+};
+
+type AllowedStringsByGuitarType = {
+  [key: string]: number[];
+}
+export const ALLOWED_STRINGS_BY_GUITAR: AllowedStringsByGuitarType = {
+  [AvailableGuitarTypesEnum.Acoustic]: [6, 7, 12],
+  [AvailableGuitarTypesEnum.Electric]: [4, 6, 7],
+  [AvailableGuitarTypesEnum.Ukulele]: [4]
+};
+
+
