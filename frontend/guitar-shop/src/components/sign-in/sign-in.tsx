@@ -18,6 +18,7 @@ export default function SignIn(): JSX.Element {
 
   const [emailError, setEmailError] = useState(FormErrorEnum.OK);
   const [passwordError, setPasswordError] = useState(FormErrorEnum.OK);
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
 
 
   const handleEmptyFields = () => {
@@ -69,10 +70,13 @@ export default function SignIn(): JSX.Element {
             <div className="input-login">
               <label htmlFor="passwordLogin">Введите пароль</label>
               <span>
-                <input ref={passwordRef} type="password" placeholder="• • • • • • • • • • • •" id="passwordLogin" name="password"
+                <input ref={passwordRef} type={passwordVisibility ? 'text' : 'password'}
+                  placeholder="• • • • • • • • • • • •" id="passwordLogin" name="password"
                   autoComplete="off" required
                 />
-                <button className="input-login__button-eye" type="button">
+                <button className="input-login__button-eye" type="button"
+                  onClick={() => setPasswordVisibility(!passwordVisibility)}
+                >
                   <svg width="14" height="8" aria-hidden="true">
                     <use xlinkHref="#icon-eye"></use>
                   </svg>

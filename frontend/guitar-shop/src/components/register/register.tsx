@@ -12,6 +12,7 @@ export default function Register(): JSX.Element {
   const nameRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -82,8 +83,10 @@ export default function Register(): JSX.Element {
             <div className="input-login">
               <label htmlFor="password">Придумайте пароль</label>
               <span>
-                <input ref={passwordRef} type="password" placeholder="• • • • • • • • • • • •" id="password" name="password" autoComplete="off" required/>
-                <button className="input-login__button-eye" type="button">
+                <input ref={passwordRef} type={passwordVisibility ? 'text' : 'password'} placeholder="• • • • • • • • • • • •" id="password" name="password" autoComplete="off" required/>
+                <button className="input-login__button-eye" type="button"
+                  onClick={() => setPasswordVisibility(!passwordVisibility)}
+                >
                   <svg width="14" height="8" aria-hidden="true">
                     <use xlinkHref="#icon-eye"></use>
                   </svg>
