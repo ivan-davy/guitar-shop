@@ -1,5 +1,5 @@
 import {Route, Routes} from 'react-router-dom';
-import {useAppSelector} from '../../hooks/store-hooks';
+import { useAppSelector } from '../../hooks/store-hooks';
 import {getAuthStatus} from '../../store/service/selectors';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
 import { getAdminRightsValue } from '../../store/user/selectors';

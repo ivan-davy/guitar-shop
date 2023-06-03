@@ -5,19 +5,16 @@ import { loginAction } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/service/selectors';
 import { AuthDataType } from '../../types/auth-data.type';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
-import { AuthorizationStatusEnum } from '../../const/authorization-status.enum';
-import { redirectToRouteAction } from '../../store/service/actions';
 import { FormErrorEnum } from '../../const/form-error.enum';
+import { AuthorizationStatusEnum } from '../../const/authorization-status.enum';
 
-//TODO: сделать вывод ошибки аунтефикации как в ТЗ
 
 export default function SignIn(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-
-  const authStatus = useAppSelector(getAuthStatus);
   const navigate = useNavigate();
+  const authStatus = useAppSelector(getAuthStatus);
 
   const [emailError, setEmailError] = useState(FormErrorEnum.OK);
   const [passwordError, setPasswordError] = useState(FormErrorEnum.OK);
@@ -53,7 +50,6 @@ export default function SignIn(): JSX.Element {
 
   useEffect(() => {
     if (authStatus === AuthorizationStatusEnum.Auth) {
-      dispatch(redirectToRouteAction(PageRouteEnum.Products));
       navigate(PageRouteEnum.Products);
     }
   }, [authStatus]);

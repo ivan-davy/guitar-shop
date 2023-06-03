@@ -8,7 +8,7 @@ export const INITIAL_PRODUCT_STATE: ProductType = {
   postedDate: dayjs().toISOString(),
   price: 0,
   vendorCode: '',
-  image: 'PLACEHOLDER-IMAGE-STRING.png', //TODO: сделать загрузку изображения
+  image: 'placeholder-guitar-image.png',
   type: AvailableGuitarTypesEnum.Acoustic,
   strings: AvailableGuitarStringsEnum.Four
 };

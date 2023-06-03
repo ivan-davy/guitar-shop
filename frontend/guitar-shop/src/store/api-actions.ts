@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { redirectToRouteAction, setLoadingStatusAction } from './service/actions';
-import { saveToken } from '../api/token';
+import { redirectToRouteAction } from './service/actions';
+import { dropToken, saveToken } from '../api/token';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { ProductType } from '../types/product.type';
@@ -122,7 +122,6 @@ export const updateProductAction = createAsyncThunk<UpdateProductReturnType, {
 );
 
 
-// TODO: при попытке удалить товар сервер выкидывает unauthorized
 export const deleteProductAction = createAsyncThunk<void, {
   productId: string;
 }, {
@@ -152,9 +151,7 @@ export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, 
 }>(
   'user/api/check-auth',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setLoadingStatusAction(true));
     const userData = (await api.get<UserType>(ApiRouteEnum.SignIn)).data;
-
     const completeUserData: CheckAuthReturnType = {
       id: userData.id,
       name: userData.name,
@@ -162,8 +159,6 @@ export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, 
       hasAdminRights: userData.hasAdminRights,
       token: userData.token,
     };
-    saveToken(completeUserData.token as string);
-
     return completeUserData;
   },
 );
@@ -222,6 +217,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   'user/api/logout',
   (_arg, {dispatch, extra: api}) => {
     //await api.delete(ApiRouteEnum.SignOut);
-    //dropToken();
+    dropToken();
   },
 );

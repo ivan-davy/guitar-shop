@@ -5,11 +5,8 @@ import { registerAction } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/service/selectors';
 import { PageRouteEnum } from '../../const/routes/page-route.enum';
 import { AuthorizationStatusEnum } from '../../const/authorization-status.enum';
-import { redirectToRouteAction } from '../../store/service/actions';
 import { FormErrorEnum } from '../../const/form-error.enum';
 import { RegisterDataType } from '../../types/register-data.type';
-
-//TODO: сделать вывод ошибки регистрации как в ТЗ, добавить валидацию
 
 export default function Register(): JSX.Element {
   const nameRef = useRef<HTMLInputElement | null>(null);
@@ -62,7 +59,7 @@ export default function Register(): JSX.Element {
 
   useEffect(() => {
     if (authStatus === AuthorizationStatusEnum.Auth) {
-      dispatch(redirectToRouteAction(PageRouteEnum.Products));
+      navigate(PageRouteEnum.Products);
     }
   }, []);
 

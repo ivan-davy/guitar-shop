@@ -5,7 +5,7 @@ import { nToMArray } from '../../util/n-to-m-array';
 import { changeCurrentPageAction } from '../../store/products/actions';
 
 const INITIAL_CURRENT_PAGE = 1;
-const MAX_PAGES_AHEAD = 3;
+const MAX_PAGES_AHEAD = 4;
 const PRODUCTS_PER_PAGE = 7;
 const NEXT_BUTTON_THRESHOLD = 3;
 

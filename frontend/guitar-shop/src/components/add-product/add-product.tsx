@@ -10,6 +10,9 @@ import { validateProductState } from '../../util/validate-product-state';
 import { toast } from 'react-toastify';
 import { reducer } from '../../util/product-form/reducer';
 import { INITIAL_PRODUCT_STATE } from '../../util/product-form/initial-product-state.const';
+import { BASE_URL } from '../../api/api';
+
+// TODO: сделать загрузку изображения
 
 export default function AddProduct(): JSX.Element {
   const [formStatus, setFormStatus] = useState(FormStatusEnum.Available);
@@ -53,6 +56,20 @@ export default function AddProduct(): JSX.Element {
       payload: Number(evt.currentTarget.value)
     });
   }
+  function handleImageChange(evt: React.FormEvent<HTMLButtonElement>) {
+    evt.preventDefault();
+    reducerDispatch({
+      type: 'image-change',
+      payload: evt.currentTarget.value
+    });
+  }
+  function handleImageDeletion(evt: React.FormEvent<HTMLButtonElement>) {
+    evt.preventDefault();
+    reducerDispatch({
+      type: 'image-change',
+      payload: INITIAL_PRODUCT_STATE.image,
+    });
+  }
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     setFormStatus(FormStatusEnum.Disabled);
@@ -86,11 +103,17 @@ export default function AddProduct(): JSX.Element {
             <div className="add-item__form-left">
               <div className="edit-item-image add-item__form-image">
                 <div className="edit-item-image__image-wrap">
+                  <img className="edit-item-image__image" src={`${BASE_URL}/uploads/${state.image}`}
+                    srcSet={`${BASE_URL}/uploads/${state.image}`} width="133" height="332" alt={state.name}
+                  />
                 </div>
                 <div className="edit-item-image__btn-wrap">
-                  <button className="button button--small button--black-border edit-item-image__btn">Добавить
+                  <button onClick={handleImageChange} className="button button--small button--black-border edit-item-image__btn">
+                    Добавить
                   </button>
-                  <button className="button button--small button--black-border edit-item-image__btn">Удалить</button>
+                  <button onClick={handleImageDeletion} className="button button--small button--black-border edit-item-image__btn">
+                    Удалить
+                  </button>
                 </div>
               </div>
               <div className="input-radio add-item__form-radio"><span>Выберите тип товара</span>
@@ -169,7 +192,7 @@ export default function AddProduct(): JSX.Element {
               <button className="button button--small add-item__form-button" type="submit" disabled={formStatus === FormStatusEnum.Disabled}>
                 Сохранить изменения
               </button>
-              <button className="button button--small add-item__form-button" type="button">
+              <button onClick={() => navigate(PageRouteEnum.Products)} className="button button--small add-item__form-button" type="button">
                 Вернуться к списку товаров
               </button>
             </div>

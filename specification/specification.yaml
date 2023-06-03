@@ -1,0 +1,713 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: API сервер для проекта six-cities.
+  description: |-
+    * Список ресурсов и маршрутов сервера six-cities.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+
+tags:
+  - name: offers
+    description: Действия с объявлениями.
+  - name: users
+    description: Действия с пользователями.
+  - name: comments
+    description: Действия с комментариями.
+
+
+paths:
+  /offers{?limit=}:
+    parameters:
+      - in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+    get:
+      tags:
+        - offers
+      summary: Получение набора объявлений.
+      description: Запрашивает набор объявлений (60 по умолчанию, получение другого числа объявлений осуществляется в параметре запроса).
+
+      responses:
+        "200":
+          description: Объекты объявлений.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+        "498":
+          description: Неверный токен.
+
+  /offers:
+    post:
+      tags:
+        - offers
+      summary: Создание нового объявления.
+      description: Создает новое объявление. Только для авторизованных пользователей.
+
+      requestBody:
+        description: Информация для создания объявления.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offerDetailed'
+        required: true
+
+      responses:
+        "201":
+          description: Объявление создано. Объект объявления.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerDetailed'
+
+        "400":
+          description: Объявление не прошло валидацию.
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "498":
+          description: Неверный токен.
+
+  /offers/{offerId}:
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - offers
+      summary: Получение полной информации об объявлении.
+      description: Запрос полной информации об объявлении.
+
+      responses:
+        "200":
+          description: Объект объявления.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerDetailed'
+
+        "404":
+          description: Объявление не найдено.
+
+
+    patch:
+      tags:
+        - offers
+      summary: Редактирование существующего объявления пользователя.
+      description: Редактирует существующее объявление пользователя. Только для авторизованных пользователей. Объявление должно принадлежать пользователю.
+
+      requestBody:
+        description: Информация для редактирования объявления.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offerDetailed'
+        required: true
+
+      responses:
+        "200":
+          description: Объявление отредактировано. Объект объявления.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerDetailed'
+
+        "400":
+          description: Объявление не прошло валидацию.
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "404":
+          description: Объявление не найдено.
+
+        "498":
+          description: Неверный токен.
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление объявления пользователя.
+      description: Удаляет объявление пользователя. Только для авторизованных пользователей. Объявление должно принадлежать пользователю.
+
+      responses:
+        "200":
+          description: Объявление удалено.
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "404":
+          description: Объявление не найдено.
+
+        "498":
+          description: Неверный токен.
+
+  /offers/premium/{city}:
+    parameters:
+      - in: path
+        name: city
+        required: true
+        schema:
+          type: string
+          enum:
+            - Amsterdam
+            - Dusseldorf
+            - Brussels
+            - Paris
+            - Cologne
+            - Hamburg
+
+    get:
+      tags:
+        - offers
+      summary: Получение списка премиальных предложений для конкретного города.
+      description: Запрос на получение списка премиальных предложений для конкретного города.
+
+      responses:
+        "200":
+          description: Объекты предложений.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+        "498":
+          description: Неверный токен.
+
+  /offers/favorite/get:
+    get:
+      tags:
+        - offers
+      summary: Получение списка избранных предложений.
+      description: Запрос на получение списка избранных предложений для конкретного города. Только для авторизованных пользователей.
+
+      responses:
+        "200":
+          description: Объекты избранных предложений.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "498":
+          description: Неверный токен.
+
+  /offers/favorite/{offerId}:
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+
+    post:
+      tags:
+        - offers
+      summary: Добавление предложения в список избранных.
+      description: Добавляет предложение в список избранных. Только для авторизованных пользователей.
+
+      responses:
+        "200":
+          description: Объект предложения.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerDetailed'
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "404":
+          description: Объявление не найдено.
+
+        "498":
+          description: Неверный токен.
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения из списка избранных.
+      description: Удаляет предложение из списка избранных. Только для авторизованных пользователей.
+
+      responses:
+        "200":
+          description: Объект предложения.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerDetailed'
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "404":
+          description: Объявление не найдено.
+
+        "498":
+          description: Неверный токен.
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя.
+      description: Регистрирует нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userCreate'
+        required: true
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "409":
+          description: Пользователь с таким адресом почты уже зарегестрирован.
+
+        "498":
+          description: Неверный токен.
+
+
+  /users/login:
+    get:
+      tags:
+        - users
+      summary: Проверка токена / состояния пользователя
+      description: Возвращает информацию по статусу авторизации. Токен передается в header. WIP
+
+      responses:
+        "200":
+          description: Пользователь авторизован. Данные и токен пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userLoginCheck'
+
+        "498":
+          description: Неверный токен.
+
+    post:
+      tags:
+        - users
+      summary: Аунтефикация пользователя.
+      description: Аунтефицирует пользователя по логину и паролю. Только для неавторизованных пользователей.
+
+      requestBody:
+        description: Информация для аунтефикации.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userLoginRequest'
+        required: true
+
+      responses:
+        "200":
+          description: Успешная аунтефикация. Токен пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userLoginResponse'
+
+        "403":
+          description: Неверные данные входа.
+
+        "498":
+          description: Неверный токен.
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузка аватара пользователя.
+      description: Загружает аватар пользователя (.png, .jpg).
+
+      responses:
+        "201":
+          description: Успешная загрузка файла аватара.
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "498":
+          description: Неверный токен.
+
+
+  /comments/{offerId}:
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+
+    get:
+      tags:
+        - comments
+      summary: Получение комментариев к объявлению.
+      description: Запрашивает комментарии к объявлению. Не более 50 штук, отсортированы по новизне.
+
+      responses:
+        "200":
+          description: Список объектов комментариев.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+
+        "404":
+          description: Объявление не найдено.
+
+        "498":
+          description: Неверный токен.
+
+    post:
+      tags:
+        - comments
+      summary: Добавление комментария к объявлению.
+      description: Добавляет комментарий к объявлению. Только для авторизованных пользователей.
+
+      requestBody:
+        description: Объект нового комментария.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/commentNewRequest'
+
+      responses:
+        "201":
+          description: Полный объект нового комментария.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "404":
+          description: Объявление не найдено.
+
+        "498":
+          description: Неверный токен.
+
+components:
+  schemas:
+    offer:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 63dbe7c4c8c402f6b33d4bb8
+
+        title:
+          type: string
+          example: Комната на двоих
+
+        postedDate:
+          type: string
+          format: date-time
+
+        city:
+          type: string
+          example: Amsterdam
+
+        imagePreview:
+          type: string
+          example: uploads/HuZKtoJwa2Zqlf-01aESz.png
+
+        premium:
+          type: boolean
+          example: true
+
+        favorite:
+          type: boolean
+          example: false
+
+        rating:
+          type: number
+          example: 4.3
+
+        type:
+          type: string
+          example: Apartment
+
+        price:
+          type: number
+          example: 2000
+
+        commentQty:
+          type: number
+          example: 21
+
+    offerDetailed:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 63dbe7c4c8c402f6b33d4bb8
+
+        title:
+          type: string
+          example: Комната на двоих
+
+        description:
+          type: string
+          example: Уютная комната в отеле International
+
+        postedDate:
+          type: string
+          format: date-time
+
+        city:
+          type: string
+          example: Amsterdam
+
+        imagePreview:
+          type: string
+          example: uploads/HuZKtoJwa2Zqlf-01aESz.png
+
+        images:
+          type: array
+          items:
+            type: string
+          example: [uploads/HuZKtoJwa2Zqlf-01aESz.png, uploads/340679.jpg, uploads/340680.jpg, uploads/340682.jpg, uploads/340684.jpg, uploads/340685.jpg]
+
+        premium:
+          type: boolean
+          example: true
+
+        favorite:
+          type: boolean
+          example: false
+
+        rating:
+          type: number
+          example: 4.3
+
+        type:
+          type: string
+          example: Apartment
+
+        rooms:
+          type: number
+          example: 2
+
+        guests:
+          type: number
+          example: 3
+
+        price:
+          type: number
+          example: 2000
+
+        features:
+          type: array
+          items:
+            type: string
+          example: [Fridge, Washer]
+
+        coordinates:
+          type: object
+          items:
+            $ref: '#/components/schemas/coordinates'
+          example: { latitude: 45.245673, longitude: 34.3498674 }
+
+        user:
+          type: object
+          items:
+            $ref: '#/components/schemas/user'
+          example: { }
+
+        commentsQty:
+          type: number
+          example: 4
+
+    userLoginResponse:
+      type: object
+
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczZAb3Zlcmxvb2submV0IiwiaWQiOiI2M2RiZThkNjM5MmFlNmI3OWFhOWJmMGUiLCJpYXQiOjE2NzU0NDkxNjMsImV4cCI6MTY3NTYyMTk2M30.HZIAsFYCmZgXbTp4SyIUcfpHkCv-PR75mZsHM9-dOMQ
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        avatarPath:
+          type: string
+          example: http://localhost:4000/uploads/torrance.png
+        name:
+          type: string
+          example: Jake
+
+    userLoginRequest:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        password:
+          type: string
+          example: 123456
+
+    userLoginCheck:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        name:
+          type: string
+          example: Jake
+        avatarPath:
+          type: string
+          example: http://localhost:4000/uploads/torrance.png
+
+    userCreate:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+        name:
+          type: string
+          example: Keks
+
+        password:
+          type: string
+          example: 123456
+
+        status:
+          type: string
+          example: Premium
+
+        avatarPath:
+          type: string
+          example: avatars/3849673.jpg
+
+    user:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 63de813ff73b6dac2842cf47
+
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+        name:
+          type: string
+          example: Keks
+
+        status:
+          type: string
+          example: Premium
+
+        avatarPath:
+          type: string
+          example: avatars/3849673.jpg
+
+        favorites:
+          type: array
+          items:
+            type: string
+
+    commentNewRequest:
+      type: object
+
+      properties:
+        offerId:
+          type: string
+          example: 63de813ff73b6dac2842cf47
+
+        text:
+          type: string
+          example: Все супер!
+
+        rated:
+          type: number
+          example: 5
+
+    comment:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 63de88c039bd85be042e0a6b
+
+        offerId:
+          type: string
+          example: 63de813ff73b6dac2842caa3
+
+        user:
+          type:
+          $ref: '#/components/schemas/user'
+
+        text:
+          type: string
+          example: Все супер!
+
+        rated:
+          type: number
+          example: 5
+
+        postedDate:
+          type: string
+          format: date-time
+
+    coordinates:
+      type: object
+
+      properties:
+        latitude:
+          type: string
+          example: 45.2456730
+
+        longitude:
+          type: string
+          example: 34.3498674

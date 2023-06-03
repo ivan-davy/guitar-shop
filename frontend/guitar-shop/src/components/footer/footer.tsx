@@ -1,12 +1,15 @@
+import { Link } from 'react-router-dom';
+import { PageRouteEnum } from '../../const/routes/page-route.enum';
+
 export default function Footer(): JSX.Element {
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer__container">
           <div className="footer__logo-wrapper">
-            <a className="footer__logo logo" href="main.html">
+            <Link className="footer__logo logo" to={PageRouteEnum.Products}>
               <img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип"/>
-            </a>
+            </Link>
             <div className="socials footer__socials">
               <ul className="socials__list">
                 <li className="socials-item">
@@ -45,15 +48,15 @@ export default function Footer(): JSX.Element {
           <section className="footer__nav-section footer__nav-section--links">
             <h2 className="footer__nav-title footer__nav-title--links">Информация</h2>
             <ul className="footer__nav-list">
-              <li className="footer__nav-list-item"><a className="link footer__nav-link" href="#top">Где купить?</a>
+              <li className="footer__nav-list-item"><Link to={PageRouteEnum.NotImplemented} className="link footer__nav-link">Где купить?</Link>
               </li>
-              <li className="footer__nav-list-item"><a className="link footer__nav-link" href="#top">Блог</a>
+              <li className="footer__nav-list-item"><Link to={PageRouteEnum.NotImplemented} className="link footer__nav-link">Блог</Link>
               </li>
-              <li className="footer__nav-list-item"><a className="link footer__nav-link" href="#top">Вопрос - ответ</a>
+              <li className="footer__nav-list-item"><Link to={PageRouteEnum.NotImplemented} className="link footer__nav-link">Вопрос - ответ</Link>
               </li>
-              <li className="footer__nav-list-item"><a className="link footer__nav-link" href="#top">Возврат</a>
+              <li className="footer__nav-list-item"><Link to={PageRouteEnum.NotImplemented} className="link footer__nav-link">Возврат</Link>
               </li>
-              <li className="footer__nav-list-item"><a className="link footer__nav-link" href="#top">Сервис-центры</a>
+              <li className="footer__nav-list-item"><Link to={PageRouteEnum.NotImplemented} className="link footer__nav-link">Сервис-центры</Link>
               </li>
             </ul>
           </section>

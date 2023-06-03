@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { reducer } from '../../util/product-form/reducer';
 import { INITIAL_PRODUCT_STATE } from '../../util/product-form/initial-product-state.const';
 import { getActiveData } from '../../store/active/selectors';
+import { BASE_URL } from '../../api/api';
 
 export default function EditProduct(): JSX.Element {
   const [formStatus, setFormStatus] = useState(FormStatusEnum.Available);
@@ -21,39 +22,59 @@ export default function EditProduct(): JSX.Element {
   const params = useParams();
 
   function handleNameChange(evt: React.FormEvent<HTMLInputElement>) {
+    evt.preventDefault();
     reducerDispatch({
       type: 'name-change',
       payload: evt.currentTarget.value
     });
   }
   function handlePriceChange(evt: React.FormEvent<HTMLInputElement>) {
+    evt.preventDefault();
     reducerDispatch({
       type: 'price-change',
       payload: evt.currentTarget.value
     });
   }
   function handleVendorCodeChange(evt: React.FormEvent<HTMLInputElement>) {
+    evt.preventDefault();
     reducerDispatch({
       type: 'vendor-code-change',
       payload: evt.currentTarget.value
     });
   }
   function handleDescriptionChange(evt: React.FormEvent<HTMLTextAreaElement>) {
+    evt.preventDefault();
     reducerDispatch({
       type: 'description-change',
       payload: evt.currentTarget.value
     });
   }
   function handleTypeChange(evt: React.FormEvent<HTMLInputElement>) {
+    evt.preventDefault();
     reducerDispatch({
       type: 'type-change',
       payload: evt.currentTarget.value
     });
   }
   function handleStringsChange(evt: React.FormEvent<HTMLInputElement>) {
+    evt.preventDefault();
     reducerDispatch({
       type: 'strings-change',
       payload: Number(evt.currentTarget.value)
+    });
+  }
+  function handleImageChange(evt: React.FormEvent<HTMLButtonElement>) {
+    evt.preventDefault();
+    reducerDispatch({
+      type: 'image-change',
+      payload: evt.currentTarget.value
+    });
+  }
+  function handleImageDeletion(evt: React.FormEvent<HTMLButtonElement>) {
+    evt.preventDefault();
+    reducerDispatch({
+      type: 'image-change',
+      payload: INITIAL_PRODUCT_STATE.image,
     });
   }
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
@@ -100,11 +121,17 @@ export default function EditProduct(): JSX.Element {
             <div className="add-item__form-left">
               <div className="edit-item-image add-item__form-image">
                 <div className="edit-item-image__image-wrap">
+                  <img className="edit-item-image__image" src={`${BASE_URL}/uploads/${state.image}`}
+                    srcSet={`${BASE_URL}/uploads/${state.image}`} width="133" height="332" alt={state.name}
+                  />
                 </div>
                 <div className="edit-item-image__btn-wrap">
-                  <button className="button button--small button--black-border edit-item-image__btn">Заменить
+                  <button onClick={handleImageChange} className="button button--small button--black-border edit-item-image__btn">
+                    Заменить
                   </button>
-                  <button className="button button--small button--black-border edit-item-image__btn">Удалить</button>
+                  <button onClick={handleImageDeletion} className="button button--small button--black-border edit-item-image__btn">
+                    Удалить
+                  </button>
                 </div>
               </div>
               <div className="input-radio add-item__form-radio"><span>Тип товара</span>
@@ -183,7 +210,7 @@ export default function EditProduct(): JSX.Element {
               <button className="button button--small add-item__form-button" type="submit" disabled={formStatus === FormStatusEnum.Disabled}>
                 Сохранить изменения
               </button>
-              <button className="button button--small add-item__form-button" type="button">
+              <button onClick={() => navigate(PageRouteEnum.Products)} className="button button--small add-item__form-button" type="button">
                 Вернуться к списку товаров
               </button>
             </div>

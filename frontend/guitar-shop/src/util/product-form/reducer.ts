@@ -38,8 +38,16 @@ export function reducer(state: ProductType, action: { type: string; payload: str
         strings: action.payload as number
       } as ProductType;
     }
+    case 'image-change': {
+      return {
+        ...state,
+        image: action.payload as string
+      } as ProductType;
+    }
     case 'full-change': {
-      return action.payload as ProductType;
+      const product = action.payload as ProductType;
+      const imageFilename = product.image.replace(/^.*[\\/]/, '');
+      return { ...product, image: imageFilename } as ProductType;
     }
   }
   throw Error(`Unknown action: ${action.type}`);

@@ -3,8 +3,8 @@ import { getToken } from './token';
 import {toast} from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 
-const BASE_URL = 'http://localhost:4000';
-const REQUEST_TIMEOUT = 5000;
+export const BASE_URL = 'http://localhost:4000';
+export const REQUEST_TIMEOUT = 5000;
 
 const ErrorDisplayMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,

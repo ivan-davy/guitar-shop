@@ -5,5 +5,6 @@ export enum PageRouteEnum {
   Product = '/product',
   AddProduct = '/product/new',
   EditProduct = '/product/edit',
+  NotImplemented = '/not-implemented',
   NotFound = '/not-found',
 }

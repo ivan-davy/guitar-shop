@@ -31,7 +31,7 @@ export default function ProductInfo(): JSX.Element {
         <ul className="breadcrumbs page-content__breadcrumbs">
           <li className="breadcrumbs__item"><Link className="link" to={PageRouteEnum.SignIn}>Вход</Link>
           </li>
-          <li className="breadcrumbs__item"><Link className="link" to={PageRouteEnum.Products}>Список товаров</Link>
+          <li className="breadcrumbs__item"><Link className="link" to={PageRouteEnum.NotImplemented}>Каталог</Link>
           </li>
           <li className="breadcrumbs__item">
             <Link to={`${PageRouteEnum.Product}/${params.id as string}`} className="link">{product?.name}</Link>

@@ -14,7 +14,7 @@ export default function AdminRoute(props: AdminRoutePropsType): JSX.Element {
   const {authorizationData, children} = props;
 
   return (
-    authorizationData.adminRights && authorizationData.authStatus === AuthorizationStatusEnum.Auth
+    authorizationData.adminRights && authorizationData.authStatus !== AuthorizationStatusEnum.NoAuth
       ? children
       : <Navigate to={PageRouteEnum.SignIn} />
   );
