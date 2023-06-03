@@ -12,6 +12,7 @@ import ProductInfo from '../product-info/product-info';
 import NotFound from '../not-found/not-found';
 import AddProduct from '../add-product/add-product';
 import EditProduct from '../edit-product/edit-product';
+import NotImplemented from '../not-implemented/not-implemented';
 
 
 function App(): JSX.Element | null {
@@ -74,6 +75,13 @@ function App(): JSX.Element | null {
         }
       >
         <Route path={':id'} element={<EditProduct/>}/>
+      </Route>
+
+      <Route
+        path={PageRouteEnum.NotImplemented}
+        element={<CommonLayout/>}
+      >
+        <Route path={''} element={<NotImplemented/>}/>
       </Route>
 
       <Route
